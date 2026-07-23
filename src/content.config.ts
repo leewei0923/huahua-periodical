@@ -10,6 +10,16 @@ const blog = defineCollection({
 		z.object({
 			title: z.string(),
 			description: z.string(),
+			lang: z.enum(['zh', 'en']).default('zh'),
+			type: z.enum(['essay', 'note', 'photo', 'link']).default('essay'),
+			translationKey: z.string().optional(),
+			tags: z.array(z.string()).default([]),
+			issue: z.string().optional(),
+			draft: z.boolean().default(false),
+			featured: z.boolean().default(false),
+			featuredOrder: z.number().int().positive().optional(),
+			evergreen: z.boolean().default(false),
+			evergreenOrder: z.number().int().positive().optional(),
 			// Transform string to Date object
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),

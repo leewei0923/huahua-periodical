@@ -1,16 +1,41 @@
 ---
-title: 'Third post'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 22 2022'
+title: '在雨停之前读完一本书'
+description: '一场没有预告的雨，把我留在陌生城市的旧书店里。时间因此慢了下来。'
+pubDate: '2026-04-09'
+lang: zh
+tags: ['travel', 'reading']
+issue: 'ISSUE 01'
 heroImage: '../../assets/blog-placeholder-2.jpg'
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+雨是在下午三点突然落下来的。
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+我没有带伞，只好推开街边最近的一扇门。门上的铜铃轻轻响了一声，里面是一家很窄的旧书店。
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+书架从地板一直顶到天花板，中间只留下一条勉强让两个人错身的过道。空气里有纸张、木头和潮湿外套混在一起的味道。店主坐在最里面，戴着眼镜读报纸，仿佛早就知道这场雨会替他带来客人。
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+我从靠门的架子上抽出一本散文集。封面已经褪色，扉页写着一行蓝色钢笔字：
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+> 给二十一岁的你。愿你永远有出发的勇气，也有回来的地方。
+
+没有落款，也没有日期。
+
+## 陌生人的一句话
+
+我在窗边坐下，从第一篇开始读。雨点不断打在玻璃上，街上的行人撑着伞快速经过。没有人知道我在哪里，也没有任何事情催我离开。
+
+书里的文字谈论远行、河流和已经消失的火车站。它们并不惊人，却恰好与窗外的雨合在一起，让那个下午显得完整。
+
+读到最后一篇时，雨声渐渐小了。屋檐开始有规律地滴水，路面映着刚亮起来的招牌。
+
+我合上书，问店主多少钱。
+
+他说，二十八。
+
+我付了钱，把书装进背包。走出门以前，我又翻到扉页。那句话仍在那里，属于一个我永远不会认识的人，也像是刚刚才写给我的。
+
+旅行有时不是为了抵达著名的地方。它只是把人放进一段陌生的时间里，让偶然发生，让一本旧书、一场雨或者一句留下多年的话，找到新的读者。
+
+雨停以后，我没有立刻打开地图。
+
+我沿着湿漉漉的街道往前走，想看看这座城市还准备把什么交给我。

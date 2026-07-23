@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import PublicationIssue from '../../components/PublicationIssue.astro';
+import { getPeriodInfo } from '../../lib/periods';
+import { getIssuePosts, getPeriodEntries, getSnapshot } from '../../lib/publications';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return getPeriodEntries(posts, 'yearly').map((period) => ({ params: { id: period.id } }));
+}
+
+const { id } = Astro.params;
+if (!id) throw new Error('缺少年刊编号');
+const posts = await getCollection('blog');
+const period = getPeriodInfo('yearly', id);
+const issuePosts = getIssuePosts(posts, 'yearly', id);
+const snapshot = getSnapshot('yearly', id);
+---
+
+<PublicationIssue kind="yearly" period={period} posts={issuePosts} snapshot={snapshot} />

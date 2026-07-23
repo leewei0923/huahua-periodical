@@ -1,63 +1,41 @@
 ---
+import { Image } from 'astro:assets';
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="zh-CN">
+	<head><BaseHead title="关于 · 花花的刊物" description="关于花花，也关于这本持续生长的个人刊物。" /></head>
+	<body>
+		<Header />
+		<main class="about">
+			<div class="rule"><span>ABOUT THE EDITOR</span><span>关于我</span></div>
+			<section class="intro">
+				<div><p class="kicker">你好，我是</p><h1>花花。</h1></div>
+				<p class="lede">我在这里写生活、记忆、远方，以及一些很难被归类的瞬间。比起“输出观点”，我更想保存感受。</p>
+			</section>
+			<section class="portrait">
+				<Image src={AboutHeroImage} alt="花花的个人影像" widths={[720, 1280]} />
+				<div class="caption"><span>PORTRAIT / 2026</span><span>中国 · CHINA</span></div>
+			</section>
+			<section class="story">
+				<aside>01<br />A SMALL<br />INTRODUCTION</aside>
+				<div><h2>这不是个人简介，<br />更像一封开场白。</h2><p>这个博客会慢慢长成一本属于我的数字杂志。它可能有认真写完的散文，也会有只记录一阵风、一次散步或一顿晚饭的短篇。照片不是配图，而是另一种语言。</p><p>我喜欢纸张、留白、旧书页和杂志里那些大胆的排版，也喜欢屏幕能做到的微妙动态。这里会是它们相遇的地方。</p><blockquote>“愿我们保持具体，保持感受，也保持对生活的好奇。”</blockquote></div>
+			</section>
+			<section class="contact"><p class="kicker">KEEP IN TOUCH</p><h2>如果你也喜欢<br />缓慢而诚实的表达。</h2><a href="mailto:hello@example.com">写信给我 / SAY HELLO ↗</a></section>
+		</main>
+		<Footer />
+	</body>
+</html>
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
-
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
-
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
-
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+<style>
+	.about{width:100%;max-width:1280px;padding:2rem}.rule{display:flex;justify-content:space-between;padding:.5rem 0;border-top:1px solid var(--fg);border-bottom:3px double var(--fg);font:.6rem var(--font-mono);letter-spacing:.16em;color:var(--fg-muted)}
+	.intro{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:end;padding:5rem 0 3rem}.kicker{margin:0 0 1rem;color:var(--accent);font:600 .62rem var(--font-mono);letter-spacing:.18em}.intro h1{font-size:clamp(4.2rem,10vw,8rem);line-height:.82;letter-spacing:-.06em}.lede{max-width:30rem;margin:0;font-size:clamp(1.15rem,2vw,1.65rem);line-height:1.6}
+	.portrait{margin:0}.portrait :global(img){display:block;width:100%;max-height:75vh;object-fit:cover;border-radius:0;filter:saturate(.75)}.caption{display:flex;justify-content:space-between;padding:.55rem 0;color:var(--fg-muted);font:.55rem var(--font-mono);letter-spacing:.14em}
+	.story{display:grid;grid-template-columns:180px minmax(0,700px);justify-content:center;gap:3rem;padding:6rem 0}.story aside{color:var(--accent);font:.6rem/1.7 var(--font-mono);letter-spacing:.14em}.story h2{font-size:clamp(2rem,4vw,3.2rem)}.story p{font-size:1.02rem;line-height:1.95}.story blockquote{margin-top:2.5rem;font-size:1.3rem}
+	.contact{margin-bottom:5rem;padding:clamp(2rem,6vw,5rem);background:var(--fg);color:white}.contact h2{color:white;font-size:clamp(2.2rem,5.5vw,4.5rem)}.contact a{color:var(--accent);font:.65rem var(--font-mono);letter-spacing:.14em}
+	@media(max-width:700px){.about{padding:1.2rem 1.1rem 3rem}.intro{grid-template-columns:1fr;gap:2rem;padding:3rem 0 2rem}.story{grid-template-columns:1fr;gap:1.5rem;padding:4rem 0}.contact{margin-bottom:2rem}}
+</style>

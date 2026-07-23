@@ -1,0 +1,143 @@
+---
+import { Image } from 'astro:assets';
+import BaseHead from './BaseHead.astro';
+import Footer from './Footer.astro';
+import FormattedDate from './FormattedDate.astro';
+import Header from './Header.astro';
+import { SITE_TITLE } from '../consts';
+import { formatPeriodRange, kindLabel, type PeriodInfo, type PeriodKind } from '../lib/periods';
+import { getFeaturedPosts, type BlogPost, type IssueSnapshot } from '../lib/publications';
+
+interface Props {
+	kind: PeriodKind;
+	period: PeriodInfo;
+	posts: BlogPost[];
+	snapshot?: IssueSnapshot;
+}
+
+const { kind, period, posts, snapshot } = Astro.props;
+const label = kindLabel(kind);
+const [lead] = posts;
+const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], snapshot });
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head><BaseHead title={`${period.title} · ${SITE_TITLE}`} description={snapshot?.summary ?? `${period.title}，共收录 ${posts.length} 篇内容。`} image={lead?.data.heroImage} /></head>
+	<body>
+		<Header />
+		<main class="issue">
+			<header class="issue-head">
+				<div class="rule"><a href={`/${kind}`}>← {label.zh}归档</a><span>{snapshot ? 'CLOSED EDITION / 已定稿' : 'LIVE EDITION / 更新中'}</span></div>
+				<div class="headline">
+					<div><p class="eyebrow">{label.en.toUpperCase()} / {period.id}</p><h1>{period.title}</h1></div>
+					<div class="issue-meta"><span>{formatPeriodRange(period)}</span><strong>{String(posts.length).padStart(2, '0')}</strong><small>STORIES</small></div>
+				</div>
+				<p class="summary">{snapshot?.summary ?? `这一期共收录 ${posts.length} 篇内容。当前刊期会随新文章继续更新，结束后自动定稿。`}</p>
+			</header>
+
+			{lead && (
+				<section class="lead">
+					<a class="lead-image" href={`/blog/${lead.id}/`}>
+						{lead.data.heroImage && <Image src={lead.data.heroImage} alt={lead.data.title} widths={[720, 1280]} sizes="(max-width: 800px) 100vw, 62vw" />}
+						<span>LATEST / 最新发布</span>
+					</a>
+					<div class="lead-copy">
+						<p class="kicker">{lead.data.type.toUpperCase()} · {lead.data.lang.toUpperCase()}</p>
+						<h2><a href={`/blog/${lead.id}/`}>{lead.data.title}</a></h2>
+						<p>{lead.data.description}</p>
+						<FormattedDate date={lead.data.pubDate} />
+					</div>
+				</section>
+			)}
+
+			{picks.length > 0 && (
+				<section class="picks">
+					<div class="section-title"><h2>本期精选</h2><span>EDITOR'S PICKS · {String(picks.length).padStart(2, '0')}</span></div>
+					<div class="pick-grid">
+						{picks.map((post, index) => (
+							<article>
+								<span class="pick-no">PICK / {String(index + 1).padStart(2, '0')}</span>
+								<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+								<p>{post.data.description}</p>
+								<FormattedDate date={post.data.pubDate} />
+							</article>
+						))}
+					</div>
+				</section>
+			)}
+
+			<section class="contents">
+				<div class="section-title"><h2>本期目录</h2><span>COMPLETE CONTENTS</span></div>
+				{posts.length > 0 ? (
+					<div class="post-list">
+						{posts.map((post, index) => (
+							<article>
+								<span class="post-no">{String(index + 1).padStart(2, '0')}</span>
+								<div class="post-copy">
+									<div class="meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.type}</span><span>{post.data.lang}</span></div>
+									<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+									<p>{post.data.description}</p>
+								</div>
+								<a class="arrow" href={`/blog/${post.id}/`} aria-label={`阅读 ${post.data.title}`}>→</a>
+							</article>
+						))}
+					</div>
+				) : (
+					<div class="empty-issue"><p>这一期还没有内容。发布第一篇文章后，目录会自动更新。</p></div>
+				)}
+			</section>
+
+			<nav class="data-links">
+				<a href={`/data/v1/issues/${kind}/${period.id}.json`}>本期 JSON ↗</a>
+				<a href="/rss.xml">文章 RSS ↗</a>
+				{kind === 'weekly' && <a href="/weekly/rss.xml">周刊 RSS ↗</a>}
+			</nav>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.issue { width: 100%; max-width: 1280px; padding: 2rem; }
+	.rule { display: flex; justify-content: space-between; padding: .5rem 0; border-top: 1px solid var(--fg); border-bottom: 3px double var(--fg); color: var(--fg-muted); font: .58rem var(--font-mono); letter-spacing: .14em; }
+	.rule a { color: inherit; text-decoration: none; }
+	.headline { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; padding: 3rem 0 1rem; }
+	.eyebrow, .kicker { color: var(--accent); font: .62rem var(--font-mono); letter-spacing: .17em; text-transform: uppercase; }
+	h1 { margin: 0; font-size: clamp(3.2rem, 7vw, 6.5rem); letter-spacing: -.05em; }
+	.issue-meta { min-width: 150px; display: grid; grid-template-columns: 1fr auto; gap: 0 .7rem; padding-left: 1.2rem; border-left: 1px solid var(--border-strong); color: var(--fg-muted); font: .58rem var(--font-mono); }
+	.issue-meta span { grid-column: 1/-1; }.issue-meta strong { color: var(--accent); font-size: 2.2rem; line-height: 1; }.issue-meta small { align-self: end; }
+	.summary { max-width: 48rem; margin: 0 0 3rem; color: var(--fg-muted); }
+	.lead { display: grid; grid-template-columns: 1.55fr 1fr; background: var(--fg); color: white; }
+	.lead-image { min-height: 480px; position: relative; display: block; overflow: hidden; background: #222; }
+	.lead-image :global(img) { width: 100%; height: 100%; position: absolute; object-fit: cover; filter: saturate(.78); }
+	.lead-image > span { position: absolute; top: 1rem; left: 1rem; padding: .35rem .55rem; color: white; background: var(--accent); font: .56rem var(--font-mono); letter-spacing: .12em; }
+	.lead-copy { align-self: center; padding: clamp(2rem, 5vw, 4rem); }
+	.lead-copy h2 { color: white; font-size: clamp(2rem, 3.4vw, 3rem); }.lead-copy h2 a { color: inherit; text-decoration: none; }
+	.lead-copy > p:not(.kicker) { color: #bdb8ae; }.lead-copy :global(time) { color: #8f8c85; font-size: .62rem; }
+	.picks, .contents { padding-top: 5rem; }
+	.section-title { display: flex; justify-content: space-between; align-items: end; padding-bottom: .8rem; border-bottom: 3px double var(--fg); }
+	.section-title h2 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }.section-title span { color: var(--fg-muted); font: .58rem var(--font-mono); letter-spacing: .14em; }
+	.pick-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border-strong); }
+	.pick-grid article { padding: 2rem; border-right: 1px solid var(--border-strong); }.pick-grid article:first-child { padding-left: 0; }.pick-grid article:last-child { border-right: 0; }
+	.pick-no, .meta, .post-no { color: var(--accent); font: .58rem var(--font-mono); letter-spacing: .12em; }
+	.pick-grid h3 { margin-top: 1rem; font-size: 1.5rem; }.pick-grid h3 a, .post-list h3 a { color: inherit; text-decoration: none; }
+	.pick-grid p, .post-list p { color: var(--fg-muted); font-size: .88rem; }.pick-grid :global(time) { color: var(--fg-muted); font-size: .58rem; }
+	.post-list { border-bottom: 1px solid var(--border-strong); }
+	.empty-issue { padding: 4rem 1rem; color: var(--fg-muted); border-bottom: 1px solid var(--border-strong); text-align: center; }
+	.post-list article { display: grid; grid-template-columns: 48px 1fr auto; gap: 1rem; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+	.post-list article:last-child { border-bottom: 0; }
+	.meta { display: flex; gap: 1rem; color: var(--fg-muted); text-transform: uppercase; }
+	.post-list h3 { margin: .35rem 0; font-size: 1.6rem; }.post-list p { margin: 0; }.arrow { color: var(--accent); font-size: 1.3rem; text-decoration: none; }
+	.data-links { display: flex; gap: 1rem; flex-wrap: wrap; padding: 2rem 0 5rem; }
+	.data-links a { padding: .65rem .8rem; color: var(--fg); border: 1px solid var(--border-strong); font: .58rem var(--font-mono); letter-spacing: .1em; text-decoration: none; }
+	.data-links a:hover { color: white; background: var(--accent); border-color: var(--accent); }
+	@media (max-width: 760px) {
+		.issue { padding: 1.2rem 1.1rem 3rem; }
+		.headline { grid-template-columns: 1fr; padding-top: 2rem; }.issue-meta { display: none; }
+		.lead { grid-template-columns: 1fr; }.lead-image { min-height: 50vh; }.lead-copy { padding: 2rem 1.3rem 2.5rem; }
+		.pick-grid { grid-template-columns: 1fr; }.pick-grid article, .pick-grid article:first-child { padding: 1.5rem 0; border-right: 0; border-bottom: 1px solid var(--border); }.pick-grid article:last-child { border-bottom: 0; }
+		.post-list article { grid-template-columns: 32px 1fr auto; }.post-list p { display: none; }
+		.section-title span { display: none; }
+	}
+</style>

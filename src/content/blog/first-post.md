@@ -1,16 +1,41 @@
 ---
-title: 'First post'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 08 2022'
+title: '晚风经过旧街道'
+description: '六月的傍晚，我重新走过那条曾经每天回家的路。店铺换了名字，风却还是从同一个方向吹来。'
+pubDate: '2026-06-18'
+lang: zh
+tags: ['life', 'essay']
+issue: 'ISSUE 01'
+featured: true
+featuredOrder: 2
+evergreen: true
+evergreenOrder: 2
 heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+傍晚六点四十分，太阳还没有完全落下去。街道被一种柔软的金色罩住，像旧照片放久以后，边缘自然泛起的黄。
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+我在路口站了一会儿，才认出从前那家文具店。招牌已经换成了咖啡色，玻璃门后摆着绿植和手冲壶。以前堆在门口的一元笔记本、自动铅笔和塑料书皮，全都不见了。
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+老板当然也不是原来的老板。
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+我没有进去，只隔着玻璃看了一眼。有人坐在靠窗的位置敲电脑，桌上是一杯快要喝完的冰美式。那把椅子所在的地方，从前摆着一只蓝色铁架。我总在放学后蹲在那里，翻最新一期的漫画杂志。
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+## 一条路保存记忆的方式
+
+我们常常误以为，记忆被保存在某个具体的建筑里。可等建筑改变以后才发现，真正让人认出一条路的，是一些无法被装修带走的东西。
+
+比如六月里略带潮气的风，比如楼上晾晒衣服的肥皂味，比如自行车压过井盖时短促的两声轻响。
+
+街角卖水果的摊位还在。西瓜被切开一半，红色果肉朝着街道，旁边插着一块歪歪扭扭的纸牌。老板低头刷手机，没有抬头看我。我买了四个桃子，装进一只很薄的红色塑料袋。
+
+> 人离开一座城市以后，城市不会停下来替他保管原样。它只偶尔留下几个细节，证明那段生活确实发生过。
+
+走到旧住处楼下时，天终于暗了。二楼阳台亮起一盏灯，窗帘后面有人影走动。那已经是别人的家，别人的晚饭，别人的日常。
+
+我忽然觉得很好。
+
+不是所有怀念都需要失而复得。有些地方只要还允许我们经过，允许晚风吹来时想起从前，就已经足够温柔。
+
+回程的地铁上，我把桃子放在膝盖上。塑料袋里散出很淡的甜味。车窗映出我的脸，也映出隧道里连续后退的灯。
+
+那条街道没有等我。但在那个傍晚，它又陪我走了一小段路。

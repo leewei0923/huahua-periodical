@@ -1,31 +1,46 @@
 ---
-title: 'Using MDX'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jun 01 2024'
+title: '把一天折叠成十二个瞬间'
+description: '一次用文字、时间刻度与交互细节完成的日常记录：平凡的一天，也有自己的光谱。'
+pubDate: '2026-07-12'
+lang: zh
+tags: ['creative-code', 'life', 'mdx']
+issue: 'ISSUE 02'
+featured: true
+featuredOrder: 1
+evergreen: true
+evergreenOrder: 1
 heroImage: '../../assets/blog-placeholder-5.jpg'
 ---
 
-This theme comes with the [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/) integration installed and configured in your `astro.config.mjs` config file. If you prefer not to use MDX, you can disable support by removing the integration from your config file.
+import MomentLine from '../../components/MomentLine.astro';
 
-## Why MDX?
+我想试着不评价这一天，只记录它。
 
-MDX is a special flavor of Markdown that supports embedded JavaScript & JSX syntax. This unlocks the ability to [mix JavaScript and UI Components into your Markdown content](https://docs.astro.build/en/guides/integrations-guide/mdx/#mdx-in-astro) for things like interactive charts or alerts.
+不写“今天很忙”，也不写“今天很开心”。只留下十二个画面，像从一卷底片里挑出的十二格。它们单独看都很普通，排列在一起，却成为了只属于这一天的形状。
 
-If you have existing content authored in MDX, this integration will hopefully make migrating to Astro a breeze.
+<MomentLine items={[
+  { time: '06:42', text: '窗帘边缘出现一条很细的光。' },
+  { time: '07:18', text: '第一杯水，楼下传来扫地的声音。' },
+  { time: '08:05', text: '地铁门关上以前，有人替陌生人挡了一秒。' },
+  { time: '09:30', text: '桌上的咖啡已经凉了，还剩最后一口。' },
+  { time: '11:47', text: '云层散开，办公室突然亮了一点。' },
+  { time: '13:12', text: '午饭后的风带着树叶和柏油路的气味。' },
+  { time: '15:26', text: '收到一句简短但令人安心的回复。' },
+  { time: '17:58', text: '关掉最后一个窗口，保存今天的工作。' },
+  { time: '18:40', text: '晚霞只持续了七分钟。' },
+  { time: '20:03', text: '买到一袋很甜的葡萄。' },
+  { time: '22:16', text: '洗衣机转动，房间里只剩下一种声音。' },
+  { time: '23:51', text: '关灯以前，想起早晨那条细细的光。' },
+]} />
 
-## Example
+## 日子如何被记住
 
-Here is how you import and use a UI component inside of MDX.  
-When you open this page in the browser, you should see the clickable button below.
+我们习惯用事件给时间命名：毕业的那年，搬家的那个月，去远方的那一天。但生活的大部分，并没有足够响亮的事情发生。
 
-import HeaderLink from '../../components/HeaderLink.astro';
+它由水烧开的声音、没有说出口的话、走过许多次的路组成。
 
-<HeaderLink href="#" onclick="alert('clicked!')">
-	Embedded component in MDX
-</HeaderLink>
+MDX 让我可以在一篇文章里放进一个真正的组件。但我喜欢技术，不是因为它让页面显得复杂，而是因为它偶尔能提供一种更准确的表达方式。
 
-## More Links
+十二个时间点在这里形成一条线。多年以后，我也许已经忘记那天做过什么，却可能记得晚霞持续了七分钟，葡萄很甜，以及睡觉前重新想起了清晨的光。
 
-- [MDX Syntax Documentation](https://mdxjs.com/docs/what-is-mdx)
-- [Astro Usage Documentation](https://docs.astro.build/en/basics/astro-pages/#markdownmdx-pages)
-- **Note:** [Client Directives](https://docs.astro.build/en/reference/directives-reference/#client-directives) are still required to create interactive components. Otherwise, all components in your MDX will render as static HTML (no JavaScript) by default.
+这就足够了。

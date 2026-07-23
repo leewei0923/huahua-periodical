@@ -3,12 +3,15 @@ interface Props {
 	date: Date;
 }
 
+import { PUBLICATION_TIME_ZONE } from '../consts';
+
 const { date } = Astro.props;
 ---
 
 <time datetime={date.toISOString()}>
 	{
 		date.toLocaleDateString('en-us', {
+			timeZone: PUBLICATION_TIME_ZONE,
 			year: 'numeric',
 			month: 'short',
 			day: 'numeric',

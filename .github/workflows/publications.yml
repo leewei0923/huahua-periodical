@@ -1,0 +1,87 @@
+name: Close publication issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: Period to close
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - weekly
+          - monthly
+          - yearly
+  schedule:
+    - cron: '10 0 * * 1'
+      timezone: Asia/Shanghai
+    - cron: '20 0 1 * *'
+      timezone: Asia/Shanghai
+    - cron: '30 0 1 1 *'
+      timezone: Asia/Shanghai
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publication-close
+  cancel-in-progress: false
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Select publication period
+        id: period
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "kind=${{ inputs.kind }}" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]]; then
+            echo "kind=weekly" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.schedule }}" == "20 0 1 * *" ]]; then
+            echo "kind=monthly" >> "$GITHUB_OUTPUT"
+          else
+            echo "kind=yearly" >> "$GITHUB_OUTPUT"
+          fi
+
+      - run: pnpm publication:close -- ${{ steps.period.outputs.kind }}
+
+      - name: Commit snapshots
+        shell: bash
+        run: |
+          if git diff --quiet -- src/data/issues; then
+            echo "No new snapshot to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/issues
+          git commit -m "chore: close ${{ steps.period.outputs.kind }} publication"
+          git push
+
+      - name: Refresh Vercel deployment
+        if: always()
+        shell: bash
+        run: |
+          if [[ -n "$VERCEL_DEPLOY_HOOK" ]]; then
+            curl --fail --silent --show-error --request POST "$VERCEL_DEPLOY_HOOK"
+          else
+            echo "VERCEL_DEPLOY_HOOK is not configured; Git integration will deploy new commits."
+          fi

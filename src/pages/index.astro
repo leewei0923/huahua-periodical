@@ -1,49 +1,159 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { formatPeriodRange, getCurrentPeriod } from '../lib/periods';
+import { getCurrentIssuePosts, getFeaturedPosts } from '../lib/publications';
+
+const now = new Date();
+const period = getCurrentPeriod('weekly', now);
+const posts = getCurrentIssuePosts(await getCollection('blog'), 'weekly', now);
+const [lead, ...rest] = posts;
+const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], limit: 3 });
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
+<html lang="zh-CN">
+	<head><BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={lead?.data.heroImage} /></head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+		<main class="home">
+			<section class="masthead">
+				<div class="edition-line">
+					<span>一本关于生活与感受的个人刊物</span>
+					<span class="red">{period.id} · {formatPeriodRange(period)}</span>
+				</div>
+				<div class="title-row">
+					<div><p class="eyebrow">THE PERSONAL JOURNAL OF</p><h1>花花的<br />刊物</h1></div>
+					<p class="manifesto">首页只收录这一周。<br />新写下的，总在最前面。<br /><em>New notes, this week only.</em></p>
+					<div class="seal" aria-hidden="true"><span>本<br />周</span><small>WEEK<br />{String(period.number).padStart(2, '0')}</small></div>
+				</div>
+			</section>
+
+			{lead ? (
+				<section class:list={['front-grid', { 'without-picks': picks.length === 0 }]}>
+					<article class="latest-story">
+						<a class="cover-image" href={`/blog/${lead.id}/`}>
+							{lead.data.heroImage && <Image src={lead.data.heroImage} alt={lead.data.title} widths={[720, 1200]} sizes="(max-width: 800px) 100vw, 68vw" />}
+							<span class="cover-no">LATEST / 最新发布</span>
+						</a>
+						<div class="cover-copy">
+							<p class="kicker">{lead.data.type.toUpperCase()} · {lead.data.lang.toUpperCase()}</p>
+							<h2><a href={`/blog/${lead.id}/`}>{lead.data.title}</a></h2>
+							<p class="description">{lead.data.description}</p>
+							<div class="story-meta"><FormattedDate date={lead.data.pubDate} /><span>{lead.data.tags.slice(0, 2).join(' · ') || 'JOURNAL'}</span></div>
+							<a class="read-more" href={`/blog/${lead.id}/`}>开始阅读 <span>Read story</span> →</a>
+						</div>
+					</article>
+
+					{picks.length > 0 && (
+						<aside class="weekly-picks">
+							<div class="pick-heading"><span>EDITOR'S PICKS</span><h2>本周精选</h2><small>{String(picks.length).padStart(2, '0')} PICKS</small></div>
+							{picks.map((post, index) => (
+								<article>
+									<span class="pick-number">{String(index + 1).padStart(2, '0')}</span>
+									<div><FormattedDate date={post.data.pubDate} /><h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3><p>{post.data.description}</p></div>
+									<a class="arrow" href={`/blog/${post.id}/`} aria-label={`阅读 ${post.data.title}`}>→</a>
+								</article>
+							))}
+						</aside>
+					)}
+				</section>
+			) : (
+				<section class="empty-week">
+					<p class="kicker">LIVE EDITION · 本周刊物</p>
+					<h2>这一周还是空白。</h2>
+					<p>当第一篇内容发布后，它会立刻出现在这里，并自动进入 {period.id}。</p>
+					<div><a href="/blog">阅读往期文章 →</a><a href="/weekly">翻阅周刊归档 →</a></div>
+				</section>
+			)}
+
+			{rest.length > 0 && (
+				<section class="latest">
+					<div class="section-title"><h2>本周更新</h2><span>THIS WEEK · {String(posts.length).padStart(2, '0')} STORIES</span></div>
+					<div class="story-grid">
+						{rest.map((post, index) => (
+							<article class="story-card">
+								<a class="story-image" href={`/blog/${post.id}/`}>{post.data.heroImage && <Image src={post.data.heroImage} alt="" widths={[480, 760]} sizes="(max-width: 700px) 100vw, 40vw" />}</a>
+								<div class="card-meta"><span>{String(index + 2).padStart(2, '0')}</span><FormattedDate date={post.data.pubDate} /></div>
+								<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+								<p>{post.data.description}</p>
+							</article>
+						))}
+					</div>
+				</section>
+			)}
+
+			<section class="issue-actions">
+				<div><p class="kicker">CURRENT EDITION</p><h2>{period.title}</h2><p>{formatPeriodRange(period)} · 共 {posts.length} 篇内容</p></div>
+				<nav><a href={`/weekly/${period.id}/`}>查看本期周刊 →</a><a href="/weekly/rss.xml">订阅周刊 RSS →</a><a href={`/data/v1/issues/weekly/${period.id}.json`}>读取本期 JSON →</a></nav>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.home { width: 100%; max-width: 100%; padding: 0; }
+	.masthead, .front-grid, .latest, .empty-week, .issue-actions { max-width: 1280px; margin: auto; }
+	.masthead { padding: 2rem 2rem 2.5rem; }
+	.edition-line { padding: .5rem 0; display: flex; justify-content: space-between; border-top: 1px solid var(--fg); border-bottom: 3px double var(--fg); font: .6rem var(--font-mono); letter-spacing: .15em; text-transform: uppercase; }
+	.red, .kicker { color: var(--accent); }
+	.title-row { min-height: 270px; display: grid; grid-template-columns: 1.45fr .8fr auto; gap: 3rem; align-items: center; }
+	.eyebrow { margin: 0 0 .4rem; font: 500 .62rem/1 var(--font-mono); letter-spacing: .2em; color: var(--fg-muted); }
+	h1 { margin: 0; font-size: clamp(4.2rem, 9vw, 7.5rem); line-height: .82; letter-spacing: -.06em; }
+	.manifesto { align-self: end; margin: 0 0 1.2rem; font-size: 1.05rem; line-height: 1.75; }
+	.manifesto em { font-size: .82rem; color: var(--fg-muted); }
+	.seal { width: 92px; height: 92px; display: grid; grid-template-columns: 1fr 1fr; place-items: center; transform: rotate(5deg); border: 1px solid var(--accent); color: var(--accent); }
+	.seal span { font-weight: 700; line-height: 1.25; }.seal small { font: .52rem/1.5 var(--font-mono); }
+	.front-grid { display: grid; grid-template-columns: minmax(0, 2.15fr) minmax(280px, .85fr); background: var(--fg); color: #f6f2e8; }
+	.front-grid.without-picks { grid-template-columns: 1fr; }
+	.latest-story { display: grid; grid-template-columns: 1.4fr 1fr; min-width: 0; }
+	.cover-image { min-height: 580px; position: relative; display: block; overflow: hidden; background: #222; }
+	.cover-image :global(img) { width: 100%; height: 100%; position: absolute; object-fit: cover; filter: saturate(.78) contrast(1.04); transition: transform .7s var(--ease); }
+	.cover-image:hover :global(img) { transform: scale(1.025); }
+	.cover-no { position: absolute; left: 1rem; top: 1rem; padding: .35rem .55rem; background: var(--accent); color: white; font: .58rem/1 var(--font-mono); letter-spacing: .14em; }
+	.cover-copy { padding: clamp(2rem, 4vw, 3.5rem); align-self: center; }
+	.kicker { margin: 0 0 1.2rem; font: 600 .62rem/1.5 var(--font-mono); letter-spacing: .18em; text-transform: uppercase; }
+	.cover-copy h2 { font-size: clamp(1.8rem, 3vw, 3rem); color: inherit; }
+	.cover-copy h2 a { color: inherit; text-decoration: none; }
+	.description { color: #bdb8ae; font-size: .95rem; }
+	.story-meta { display: flex; flex-wrap: wrap; gap: .8rem 1.2rem; padding: 1rem 0; border-top: 1px solid #393939; border-bottom: 1px solid #393939; color: #8f8c85; font: .58rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+	.read-more { display: inline-flex; gap: .55rem; margin-top: 1.5rem; color: white; text-decoration: none; }.read-more span { color: #8f8c85; font: .62rem var(--font-mono); align-self: center; }
+	.weekly-picks { padding: 2rem; border-left: 1px solid #393939; }
+	.pick-heading { padding-bottom: 1.2rem; border-bottom: 3px double #555; }.pick-heading span, .pick-heading small { color: #8f8c85; font: .55rem var(--font-mono); letter-spacing: .13em; }.pick-heading h2 { margin: .4rem 0; color: white; font-size: 1.65rem; }
+	.weekly-picks > article { display: grid; grid-template-columns: 24px 1fr auto; gap: .75rem; padding: 1.4rem 0; border-bottom: 1px solid #393939; }
+	.pick-number { color: var(--accent); font: .58rem var(--font-mono); }
+	.weekly-picks :global(time) { color: #8f8c85; font-size: .55rem; }.weekly-picks h3 { margin: .3rem 0; color: white; font-size: 1.15rem; }.weekly-picks h3 a { color: inherit; text-decoration: none; }.weekly-picks p { margin: 0; color: #8f8c85; font-size: .78rem; line-height: 1.6; }.arrow { color: var(--accent); text-decoration: none; }
+	.empty-week { padding: clamp(4rem, 10vw, 8rem) 2rem; color: white; background: var(--fg); text-align: center; }
+	.empty-week h2 { color: white; font-size: clamp(2.4rem, 5vw, 4.5rem); }.empty-week > p:not(.kicker) { color: #aaa; }.empty-week div { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }.empty-week a { padding: .7rem .9rem; color: white; border: 1px solid #555; font: .6rem var(--font-mono); letter-spacing: .1em; text-decoration: none; }
+	.latest { padding: 6rem 2rem; }
+	.section-title { display: flex; align-items: end; justify-content: space-between; margin-bottom: 2rem; padding-bottom: .8rem; border-bottom: 3px double var(--fg); }
+	.section-title h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); }.section-title span { font: .6rem var(--font-mono); letter-spacing: .15em; color: var(--fg-muted); }
+	.story-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4rem 2rem; }
+	.story-card { display: grid; grid-template-columns: 1fr; align-content: start; }
+	.story-image { display: block; aspect-ratio: 16/10; overflow: hidden; background: var(--border); }
+	.story-image :global(img) { width: 100%; height: 100%; object-fit: cover; filter: saturate(.72); transition: transform .6s var(--ease), filter .6s var(--ease); }
+	.story-image:hover :global(img) { transform: scale(1.03); filter: saturate(1); }
+	.card-meta { display: flex; justify-content: space-between; margin-top: .8rem; color: var(--accent); font: .6rem var(--font-mono); letter-spacing: .12em; }
+	.story-card h3 { margin-top: .55rem; font-size: clamp(1.4rem, 2.4vw, 2rem); }.story-card h3 a { color: inherit; text-decoration: none; }.story-card p { color: var(--fg-muted); font-size: .92rem; }
+	.issue-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 6rem; padding: 3rem max(2rem, 7vw); color: white; background: var(--accent); }
+	.issue-actions .kicker { color: #ffd1ca; }.issue-actions h2 { color: white; font-size: clamp(2rem, 4vw, 3rem); }.issue-actions p { margin: 0; color: #ffd1ca; }.issue-actions nav { display: flex; flex-direction: column; align-self: center; }.issue-actions a { padding: .75rem 0; color: white; border-bottom: 1px solid rgba(255,255,255,.35); font: .62rem var(--font-mono); letter-spacing: .1em; text-decoration: none; }
+	@media (max-width: 980px) {
+		.front-grid { grid-template-columns: 1fr; }.weekly-picks { border-top: 1px solid #393939; border-left: 0; }.weekly-picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }.pick-heading { grid-column: 1/-1; }.weekly-picks > article { grid-template-columns: 24px 1fr; }.weekly-picks .arrow { display: none; }
+	}
+	@media (max-width: 800px) {
+		.masthead { padding: 1.2rem 1.1rem 1.8rem; }.title-row { min-height: 0; grid-template-columns: minmax(0, 1fr) auto; gap: 1.25rem .75rem; align-items: start; padding-top: 1rem; }.manifesto { grid-column: 1 / -1; order: 3; margin: .25rem 0 0; }.seal { width: 64px; height: 64px; margin-top: 2rem; }.edition-line span:first-child { display: none; }
+		.latest-story { grid-template-columns: 1fr; }.cover-image { min-height: 58vh; }.cover-copy { padding: 2rem 1.3rem 3rem; }
+		.weekly-picks { grid-template-columns: 1fr; padding: 2rem 1.3rem; }.weekly-picks > article { grid-template-columns: 24px 1fr auto; }.weekly-picks .arrow { display: block; }
+		.latest { padding: 4rem 1.1rem; }.story-grid { grid-template-columns: 1fr; gap: 3rem; }
+		.empty-week { margin: 0 1.1rem; padding-inline: 1.3rem; }
+		.issue-actions { grid-template-columns: 1fr; margin: 0 1.1rem 4rem; padding: 2.5rem 1.4rem; }
+		h1 { font-size: clamp(3.7rem, 20vw, 5.2rem); }
+	}
+	@media (max-width: 420px) { .title-row { grid-template-columns: 1fr; }.seal { display: none; }h1 { font-size: clamp(3.5rem, 22vw, 4.8rem); } }
+</style>

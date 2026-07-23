@@ -1,16 +1,40 @@
 ---
-title: 'Second post'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 15 2022'
+title: '一个人吃饭，也要摆好碗筷'
+description: '独居之后才明白，认真吃饭不是仪式感，而是一种不动声色地照顾自己的方式。'
+pubDate: '2026-05-27'
+lang: zh
+tags: ['life', 'essay']
+issue: 'ISSUE 01'
 heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+刚开始一个人住的时候，我经常站在厨房里把晚饭吃完。
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+锅还放在灶台上，我拿着筷子，夹一口菜，再低头看一眼手机。吃到最后，米饭已经凉了，脑子里却想不起它究竟是什么味道。
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+一个人的生活很容易被压缩。洗衣服可以等到周末，地板只要看不出灰就不用拖，晚饭也可以用面包、牛奶和外卖软件迅速解决。
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+直到某天，我买回一只白色陶瓷碗。
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+它并不昂贵，碗沿还有一点不对称。我洗干净它，盛了一碗刚煮好的米饭，又把炒青菜和番茄鸡蛋分别装进盘子里。餐桌上原本堆着书和充电线，我花了几分钟把它们移开。
+
+然后坐下来吃饭。
+
+## 好好生活是一件具体的事
+
+那顿饭没有特别好吃，但我第一次发现，窗外的天色正在一点点变蓝。楼下有人牵着狗经过，小区广播提醒大家收取快递。米饭冒出的热气在灯下很清楚。
+
+“照顾自己”听起来像一个宽泛的句子，真正做起来，却总是由一些很小的动作组成：
+
+- 把水果洗好再放进冰箱；
+- 睡觉前给手机充电，也给床边留一杯水；
+- 生病时不逞强，累了就早点回家；
+- 即使只有一个人，也把碗筷摆好。
+
+后来我开始给晚饭留出固定的时间。偶尔做得复杂，更多时候只是一碗面。但我会关掉工作页面，把手机屏幕扣在桌上，认真吃完。
+
+生活没有因此突然变得更好。烦恼没有减少，明天要做的事情仍然很多。
+
+只是吃完饭、洗好碗，看见干净的桌面时，我会知道今天已经被妥善地接住了一部分。
+
+一个人生活，不代表凡事都可以将就。恰恰因为没有旁人提醒，更应该为自己保留那些看似多余的认真。

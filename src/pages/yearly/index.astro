@@ -1,0 +1,9 @@
+---
+import { getCollection } from 'astro:content';
+import PeriodArchive from '../../components/PeriodArchive.astro';
+import { getPeriodEntries } from '../../lib/publications';
+
+const periods = getPeriodEntries(await getCollection('blog'), 'yearly');
+---
+
+<PeriodArchive kind="yearly" periods={periods} />
