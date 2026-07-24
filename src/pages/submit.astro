@@ -1,0 +1,122 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, SUBMISSION_EMAIL } from '../consts';
+
+const subject = encodeURIComponent('[投稿] 文章标题 / 署名');
+const body = encodeURIComponent(
+	`你好，花花有期：\n\n投稿标题：\n作者署名：\n内容类型：文字 / 影像 / 其他\n\n个人简介：\n\n正文或附件说明：\n`,
+);
+const submissionHref = `mailto:${SUBMISSION_EMAIL}?subject=${subject}&body=${body}`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead
+			title={`投稿 · ${SITE_TITLE}`}
+			description={`向${SITE_TITLE}投稿：来稿方向、准备材料与投稿邮箱。`}
+		/>
+	</head>
+	<body>
+		<Header />
+		<main class="submission">
+			<header class="submission-header">
+				<div class="rule"><span>OPEN CALL</span><span>长期征稿</span></div>
+				<div class="title-row">
+					<div>
+						<p class="kicker">WRITE WITH US</p>
+						<h1>把你珍惜的<br />片刻寄来。</h1>
+					</div>
+					<p class="lede">花花有期长期接收文字与影像来稿。我们喜欢具体、真诚、有个人感受的表达，也愿意为尚未被归类的作品留一个位置。</p>
+				</div>
+			</header>
+
+			<section class="guide" aria-labelledby="submission-guide-title">
+				<aside>01<br />SUBMISSION<br />GUIDE</aside>
+				<div class="guide-content">
+					<h2 id="submission-guide-title">我们期待的来稿</h2>
+					<div class="directions">
+						<article><span>01</span><h3>生活与记忆</h3><p>散文、随笔、日记、人物与地方故事。比起宏大的结论，我们更在意真实的细节。</p></article>
+						<article><span>02</span><h3>影像与行走</h3><p>摄影故事、旅行记录或图文作品。请说明拍摄时间、地点，并保留原始大图。</p></article>
+						<article><span>03</span><h3>未被归类的表达</h3><p>书信、清单、观察笔记，以及你认为适合这本刊物的其他创作形式。</p></article>
+					</div>
+				</div>
+			</section>
+
+			<section class="preparation">
+				<div>
+					<p class="kicker">BEFORE SENDING</p>
+					<h2>来稿请附上</h2>
+				</div>
+				<ol>
+					<li><span>01</span><p><strong>作品正文</strong>可直接粘贴在邮件内，或使用 Markdown、Word、纯文本附件。</p></li>
+					<li><span>02</span><p><strong>作者信息</strong>包括署名、100 字以内的个人简介，以及可公开的个人链接（选填）。</p></li>
+					<li><span>03</span><p><strong>图片说明</strong>包括摄影者、拍摄地点与时间；请确认你拥有作品的使用授权。</p></li>
+					<li><span>04</span><p><strong>原创声明</strong>请说明作品是否首发、是否曾在其他平台公开，以及目前是否一稿多投。</p></li>
+				</ol>
+			</section>
+
+			<section class="send" aria-labelledby="send-title">
+				<div>
+					<p class="kicker">SEND YOUR WORK</p>
+					<h2 id="send-title">准备好后，<br />请寄到这里。</h2>
+				</div>
+				<div class="send-details">
+					<p class="label">投稿邮箱 / EMAIL</p>
+					<a class="email" href={submissionHref}>{SUBMISSION_EMAIL}</a>
+					<p>邮件主题建议写为「[投稿] 文章标题 / 署名」。点击邮箱可直接打开一封已填写基本格式的新邮件。</p>
+					<a class="send-button" href={submissionHref}>开始投稿 / COMPOSE EMAIL ↗</a>
+				</div>
+			</section>
+
+			<p class="note">作品是否刊发以及后续编辑安排，将通过邮件与你确认。投稿即表示你拥有来稿的完整权利；未经确认，花花有期不会擅自刊发。</p>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.submission{width:100%;max-width:1280px;padding:2rem}
+	.rule{display:flex;justify-content:space-between;padding:.5rem 0;border-top:1px solid var(--fg);border-bottom:3px double var(--fg);font:.6rem var(--font-mono);letter-spacing:.16em;color:var(--fg-muted)}
+	.title-row{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:end;padding:5rem 0}
+	.kicker{margin:0 0 1rem;color:var(--accent);font:600 .62rem var(--font-mono);letter-spacing:.18em}
+	h1{font-size:clamp(3.6rem,8vw,7rem);line-height:.92;letter-spacing:-.055em}
+	.lede{max-width:31rem;margin:0;font-size:clamp(1.1rem,2vw,1.55rem);line-height:1.7}
+	.guide{display:grid;grid-template-columns:180px 1fr;gap:3rem;padding:5rem 0;border-top:1px solid var(--fg)}
+	.guide aside{color:var(--accent);font:.6rem/1.7 var(--font-mono);letter-spacing:.14em}
+	.guide h2,.preparation h2{font-size:clamp(2rem,4vw,3.2rem)}
+	.directions{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:2.5rem;border-top:1px solid var(--border-strong);border-bottom:1px solid var(--border-strong)}
+	.directions article{padding:1.5rem 1.5rem 1.5rem 0}
+	.directions article+article{padding-left:1.5rem;border-left:1px solid var(--border)}
+	.directions span,.preparation li>span{color:var(--accent);font:.58rem var(--font-mono);letter-spacing:.12em}
+	.directions h3{margin-top:1.2rem;font-size:1.35rem}
+	.directions p{margin:0;color:var(--fg-muted);font-size:.9rem;line-height:1.75}
+	.preparation{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;padding:5rem clamp(2rem,6vw,5rem);background:#eeeae0}
+	.preparation ol{margin:0;padding:0;list-style:none}
+	.preparation li{display:grid;grid-template-columns:2rem 1fr;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--border-strong)}
+	.preparation li:first-child{border-top:1px solid var(--border-strong)}
+	.preparation li p{margin:0;font-size:.95rem}
+	.send{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:5rem;padding:clamp(2rem,6vw,5rem);color:white;background:var(--fg)}
+	.send h2{color:white;font-size:clamp(2.4rem,5vw,4.5rem)}
+	.send-details{align-self:center}
+	.label{margin:0;color:#888;font:.58rem var(--font-mono);letter-spacing:.15em}
+	.email{display:inline-block;margin:.5rem 0 1.3rem;color:white;font-size:clamp(1.25rem,2.5vw,2rem);text-decoration-color:var(--accent);overflow-wrap:anywhere}
+	.send-details>p:not(.label){max-width:32rem;color:#aaa;font-size:.9rem}
+	.send-button{display:inline-flex;margin-top:.8rem;padding:.85rem 1rem;color:white;background:var(--accent);font:.62rem var(--font-mono);letter-spacing:.12em;text-decoration:none}
+	.send-button:hover{color:white;background:#a91f1f}
+	.note{max-width:52rem;margin:1.2rem 0 5rem auto;color:var(--fg-muted);font-size:.78rem}
+	@media(max-width:800px){
+		.submission{padding:1.2rem 1.1rem 3rem}
+		.title-row,.guide,.preparation,.send{grid-template-columns:1fr;gap:2rem}
+		.title-row{padding:3rem 0}
+		.guide{padding:3.5rem 0}
+		.directions{grid-template-columns:1fr}
+		.directions article,.directions article+article{padding:1.4rem 0;border-left:0;border-bottom:1px solid var(--border)}
+		.directions article:last-child{border-bottom:0}
+		.preparation{padding:2.5rem 1.4rem}
+		.send{margin-top:3rem;padding:2.5rem 1.4rem}
+		.note{margin-bottom:2rem}
+	}
+</style>

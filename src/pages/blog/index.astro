@@ -21,7 +21,7 @@ const posts = getPublishedPosts(await getCollection('blog'));
 				<h1>所有写下的<br />与未写完的</h1>
 				<p>生活随笔、散文、照片与偶尔的技术漫游。<br /><em>Essays, field notes, photographs and unfinished thoughts.</em></p>
 			</header>
-			<div class="filters" id="languages" aria-label="文章筛选"><button class="active" data-filter="all">全部 ALL</button><button data-filter="essay">随笔 ESSAY</button><button data-filter="life">生活 LIFE</button><button data-filter="zh">中文 ZH</button><button data-filter="en">英文 EN</button></div>
+			<div class="filters" aria-label="文章筛选"><button class="active" data-filter="all">全部 ALL</button><button data-filter="essay">随笔 ESSAY</button><button data-filter="life">生活 LIFE</button></div>
 			<section class="post-list">
 				{posts.map((post, index) => <article data-lang={post.data.lang} data-tags={post.data.tags.join(' ')}>
 					<a class="thumb" href={`/blog/${post.id}/`}>{post.data.heroImage && <Image src={post.data.heroImage} alt="" widths={[320, 560]} sizes="(max-width: 700px) 100vw, 28vw" />}</a>
@@ -40,7 +40,7 @@ const posts = getPublishedPosts(await getCollection('blog'));
 			function filterStories(filter = 'all') {
 				let visible = 0;
 				stories.forEach((story) => {
-					const match = filter === 'all' || story.dataset.lang === filter || story.dataset.tags?.split(' ').includes(filter);
+					const match = filter === 'all' || story.dataset.tags?.split(' ').includes(filter);
 					story.hidden = !match;
 					if (match) visible++;
 				});
@@ -48,8 +48,6 @@ const posts = getPublishedPosts(await getCollection('blog'));
 				if (empty) empty.hidden = visible > 0;
 			}
 			buttons.forEach((button) => button.addEventListener('click', () => filterStories(button.dataset.filter)));
-			const initial = new URLSearchParams(location.search).get('lang');
-			if (initial === 'zh' || initial === 'en') filterStories(initial);
 		</script>
 	</body>
 </html>

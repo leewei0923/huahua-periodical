@@ -176,12 +176,15 @@ pnpm publication:close -- weekly --id=2026-W30 --force
 4. 在 Vercel 环境变量中添加：
 
 ```text
-SITE_URL=https://你的正式域名
+SITE_URL=https://huahua.7miaoyu.com
+PUBLIC_SUBMISSION_EMAIL=leewei@icenew.top
 ```
 
 5. 每次推送文章后，Vercel 会自动重新构建，首页、JSON 和 RSS 会一起更新。
 
-项目保留了 `https://example.com` 作为本地构建兜底值，但正式部署必须配置真实 `SITE_URL`，否则 canonical、RSS 和 JSON 中会出现示例域名。
+项目以 `https://huahua.7miaoyu.com` 和 `leewei@icenew.top` 作为本地构建兜底值。正式部署仍建议配置 `SITE_URL` 与 `PUBLIC_SUBMISSION_EMAIL`，方便以后在不修改代码的情况下更换主域名或投稿邮箱。
+
+项目同时使用 `huahua.leewei0923.com` 作为备用访问域名。在 Vercel 的 Domains 设置中，将它永久重定向到 `huahua.7miaoyu.com`，避免两个域名产生重复页面。
 
 ## 设置自动定稿
 

@@ -4,3 +4,4 @@
 export const SITE_TITLE = '花花有期';
 export const SITE_DESCRIPTION = '一本按周生长、按月装订、按年收藏的个人刊物。';
 export const PUBLICATION_TIME_ZONE = 'Asia/Shanghai';
+export const SUBMISSION_EMAIL = import.meta.env.PUBLIC_SUBMISSION_EMAIL?.trim() || 'leewei@icenew.top';

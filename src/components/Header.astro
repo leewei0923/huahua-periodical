@@ -17,11 +17,11 @@ const currentWeek = getCurrentPeriod('weekly');
 			<a class:list={{ active: isActive('/blog') }} href="/blog">文章 <span>Stories</span></a>
 			<a class:list={{ active: isActive('/weekly') || isActive('/monthly') || isActive('/yearly') }} href="/weekly">刊期 <span>Issues</span></a>
 			<a class:list={{ active: isActive('/picks') }} href="/picks">精选 <span>Picks</span></a>
+			<a class:list={{ active: isActive('/submit') }} href="/submit">投稿 <span>Submit</span></a>
 			<a class:list={{ active: isActive('/about') }} href="/about">关于 <span>About</span></a>
 		</div>
 		<div class="nav-meta">
 			<span class="issue">{currentWeek.id}</span>
-			<div class="language" aria-label="语言筛选"><a href="/blog/?lang=zh">中文</a><span aria-hidden="true">/</span><a href="/blog/?lang=en">EN</a></div>
 		</div>
 	</nav>
 </header>
@@ -41,8 +41,6 @@ const currentWeek = getCurrentPeriod('weekly');
 	.nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 180ms var(--ease); }
 	.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
 	.nav-meta { justify-self: end; display: flex; align-items: center; gap: 1rem; font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em; color: var(--fg-muted); }
-	.language { display:flex;gap:.35rem;padding: .45rem .65rem; color: var(--fg); font: inherit; background: transparent; border: 1px solid var(--border-strong); }
-	.language a { color:inherit; }.language a:hover { color:var(--accent); }
 	@media (max-width: 760px) {
 		.site-header { padding: 0 1rem; }
 		.nav-shell { min-height: 58px; grid-template-columns: 1fr auto; gap: .75rem; }
@@ -51,6 +49,5 @@ const currentWeek = getCurrentPeriod('weekly');
 		.nav-links a span { display: none; }
 		.nav-meta .issue { display: none; }
 		.wordmark-en { display: none; }
-		.language { gap: .3rem; padding: .2rem 0; border: 0; letter-spacing: .08em; }
 	}
 </style>

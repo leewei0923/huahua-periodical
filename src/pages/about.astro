@@ -1,31 +1,86 @@
 ---
 import { Image } from 'astro:assets';
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { SUBMISSION_EMAIL } from '../consts';
 ---
 
 <!doctype html>
 <html lang="zh-CN">
-	<head><BaseHead title="关于 · 花花有期" description="关于花花，也关于这本持续生长的个人刊物。" /></head>
+	<head><BaseHead title="关于 · 花花有期" description="这里收藏生活中那些值得留下的片刻。花花有期是一处记录感受的空间。" /></head>
 	<body>
 		<Header />
 		<main class="about">
-			<div class="rule"><span>ABOUT THE EDITOR</span><span>关于我</span></div>
+			<div class="rule"><span>ABOUT HUĀHUĀ PERIODICAL</span><span>关于花花有期</span></div>
 			<section class="intro">
-				<div><p class="kicker">你好，我是</p><h1>花花。</h1></div>
-				<p class="lede">我在这里写生活、记忆、远方，以及一些很难被归类的瞬间。比起“输出观点”，我更想保存感受。</p>
+				<div><p class="kicker">KEEP MOMENTS · KEEP STORIES</p><h1>值得留下的<br />片刻。</h1></div>
+				<div class="lede">
+					<p>这里收藏生活中那些值得留下的片刻。</p>
+					<p>花花有期不是一本关于观点的刊物，<br />而是一处记录感受的空间。</p>
+				</div>
+			</section>
+			<section class="manifesto">
+				<p>我们收集文字、影像，以及那些难以被归类的瞬间。</p>
+				<p>一段旅途、一场相遇、一顿晚餐、一本旧书、一束光，甚至只是某一天突然想记下的心情。</p>
+				<p>它们或许微小，却组成了每个人独特的生活轨迹。</p>
 			</section>
 			<section class="portrait">
-				<Image src={AboutHeroImage} alt="花花的个人影像" widths={[720, 1280]} />
-				<div class="caption"><span>PORTRAIT / 2026</span><span>中国 · CHINA</span></div>
+				<Image
+					src="https://img.cdn.newappdaily.com/huahua-periodical/site/flowers2.jpg"
+					alt="花花有期收藏的生活片刻"
+					width={1055}
+					height={1491}
+					widths={[720, 1055]}
+					sizes="(max-width: 700px) 100vw, 1280px"
+				/>
+				<div class="caption">
+					<span>MOMENTS / 2026</span>
+					<small class="credit">
+						该图片由
+						<a href="https://pixabay.com/zh/users/istvánkopeczny-21229886/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=7310886" target="_blank" rel="noreferrer">István Kopeczny</a>
+						在
+						<a href="https://pixabay.com/zh//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=7310886" target="_blank" rel="noreferrer">Pixabay</a>
+						上发布
+					</small>
+					<span>KEEP MOMENTS · KEEP STORIES</span>
+				</div>
 			</section>
 			<section class="story">
-				<aside>01<br />A SMALL<br />INTRODUCTION</aside>
-				<div><h2>这不是个人简介，<br />更像一封开场白。</h2><p>这个博客会慢慢长成一本属于我的数字杂志。它可能有认真写完的散文，也会有只记录一阵风、一次散步或一顿晚饭的短篇。照片不是配图，而是另一种语言。</p><p>我喜欢纸张、留白、旧书页和杂志里那些大胆的排版，也喜欢屏幕能做到的微妙动态。这里会是它们相遇的地方。</p><blockquote>“愿我们保持具体，保持感受，也保持对生活的好奇。”</blockquote></div>
+				<aside>01<br />ABOUT<br />花花有期</aside>
+				<div>
+					<p class="kicker">ABOUT 花花有期</p>
+					<h2>我们相信，生活不应该<br />只被快速浏览。</h2>
+					<p>有些故事需要慢慢阅读，<br />有些照片需要停留片刻，<br />有些情绪需要被认真保存。</p>
+					<p>花花有期希望成为一本不断生长的数字杂志。</p>
+					<p>这里有完整的文章，也有短暂的记录；<br />有个人经验，也有陌生人的故事；<br />有影像，也有文字无法替代的情绪。</p>
+					<blockquote>每一次投稿，都是一次生活留下的痕迹。</blockquote>
+				</div>
 			</section>
-			<section class="contact"><p class="kicker">KEEP IN TOUCH</p><h2>如果你也喜欢<br />缓慢而诚实的表达。</h2><a href="mailto:hello@example.com">写信给我 / SAY HELLO ↗</a></section>
+			<section class="contact">
+				<div class="open-call-heading">
+					<p class="kicker">OPEN CALL · 投稿计划</p>
+					<h2>花花有期<br />长期开放投稿。</h2>
+				</div>
+				<div class="open-call-copy">
+					<p>如果你也想分享：</p>
+					<ul>
+						<li>一篇关于生活的文字</li>
+						<li>一组记录某段时间的影像</li>
+						<li>一次远方旅行的故事</li>
+						<li>一个一直想保存的瞬间</li>
+					</ul>
+					<p>欢迎将你的作品发送给我们。</p>
+					<p class="submission-note">请附上：<br /><strong>作品内容 + 简单介绍 + 作者信息</strong></p>
+					<p class="email-label">投稿邮箱：</p>
+					<a class="email" href={`mailto:${SUBMISSION_EMAIL}`}>{SUBMISSION_EMAIL} ↗</a>
+					<a class="guide-link" href="/submit">查看投稿说明 / SUBMISSION GUIDE →</a>
+				</div>
+				<blockquote class="closing-quote">
+					<span>“愿每一次相遇，都有留下的意义。”</span>
+					<small>KEEP MOMENTS<br />KEEP STORIES</small>
+				</blockquote>
+			</section>
 		</main>
 		<Footer />
 	</body>
@@ -33,9 +88,10 @@ import Header from '../components/Header.astro';
 
 <style>
 	.about{width:100%;max-width:1280px;padding:2rem}.rule{display:flex;justify-content:space-between;padding:.5rem 0;border-top:1px solid var(--fg);border-bottom:3px double var(--fg);font:.6rem var(--font-mono);letter-spacing:.16em;color:var(--fg-muted)}
-	.intro{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:end;padding:5rem 0 3rem}.kicker{margin:0 0 1rem;color:var(--accent);font:600 .62rem var(--font-mono);letter-spacing:.18em}.intro h1{font-size:clamp(4.2rem,10vw,8rem);line-height:.82;letter-spacing:-.06em}.lede{max-width:30rem;margin:0;font-size:clamp(1.15rem,2vw,1.65rem);line-height:1.6}
-	.portrait{margin:0}.portrait :global(img){display:block;width:100%;max-height:75vh;object-fit:cover;border-radius:0;filter:saturate(.75)}.caption{display:flex;justify-content:space-between;padding:.55rem 0;color:var(--fg-muted);font:.55rem var(--font-mono);letter-spacing:.14em}
+	.intro{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:end;padding:5rem 0 3rem}.kicker{margin:0 0 1rem;color:var(--accent);font:600 .62rem var(--font-mono);letter-spacing:.18em}.intro h1{font-size:clamp(3.8rem,8vw,7rem);line-height:.9;letter-spacing:-.055em}.lede{max-width:32rem;font-size:clamp(1.1rem,1.8vw,1.45rem);line-height:1.7}.lede p:last-child{margin-bottom:0}
+	.manifesto{display:grid;grid-template-columns:.8fr 1.5fr .8fr;gap:2rem;padding:2rem 0 4rem;border-top:1px solid var(--border-strong)}.manifesto p{margin:0;color:var(--fg-muted);font-size:.95rem;line-height:1.85}.manifesto p:nth-child(2){color:var(--fg);font-size:1.1rem}
+	.portrait{margin:0}.portrait :global(img){display:block;width:100%;max-height:75vh;object-fit:cover;border-radius:0;filter:saturate(.75)}.caption{display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:start;padding:.55rem 0;color:var(--fg-muted);font:.55rem var(--font-mono);letter-spacing:.14em}.credit{justify-self:center;font:400 .55rem/1.6 var(--font-serif);letter-spacing:.02em;text-align:center}.credit a{color:inherit;text-underline-offset:.18em}.credit a:hover{color:var(--accent)}
 	.story{display:grid;grid-template-columns:180px minmax(0,700px);justify-content:center;gap:3rem;padding:6rem 0}.story aside{color:var(--accent);font:.6rem/1.7 var(--font-mono);letter-spacing:.14em}.story h2{font-size:clamp(2rem,4vw,3.2rem)}.story p{font-size:1.02rem;line-height:1.95}.story blockquote{margin-top:2.5rem;font-size:1.3rem}
-	.contact{margin-bottom:5rem;padding:clamp(2rem,6vw,5rem);background:var(--fg);color:white}.contact h2{color:white;font-size:clamp(2.2rem,5.5vw,4.5rem)}.contact a{color:var(--accent);font:.65rem var(--font-mono);letter-spacing:.14em}
-	@media(max-width:700px){.about{padding:1.2rem 1.1rem 3rem}.intro{grid-template-columns:1fr;gap:2rem;padding:3rem 0 2rem}.story{grid-template-columns:1fr;gap:1.5rem;padding:4rem 0}.contact{margin-bottom:2rem}}
+	.contact{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:5rem;padding:clamp(2rem,6vw,5rem);background:var(--fg);color:white}.contact h2{color:white;font-size:clamp(2.2rem,5vw,4.2rem)}.open-call-copy{align-self:end}.open-call-copy>p{max-width:42rem;color:#aaa}.open-call-copy ul{margin:0 0 1.5rem;padding:1rem 0;list-style:none;border-top:1px solid #333;border-bottom:1px solid #333}.open-call-copy li{padding:.35rem 0;color:#eee}.open-call-copy li::before{content:'—';margin-right:.7rem;color:var(--accent)}.submission-note strong{color:white}.email-label{margin:2rem 0 .2rem!important;color:#777!important;font:.58rem var(--font-mono);letter-spacing:.14em}.contact a{display:block;width:max-content;max-width:100%;color:var(--accent);text-decoration:none}.email{font-size:clamp(1.25rem,2.4vw,2rem);overflow-wrap:anywhere}.guide-link{margin-top:1.5rem;font:.62rem var(--font-mono);letter-spacing:.12em}.closing-quote{grid-column:1/-1;display:flex;justify-content:space-between;align-items:end;margin:1rem 0 0;padding:2rem 0 0;color:white;border-top:3px double #555;border-left:0;font-style:normal}.closing-quote span{font-size:clamp(1.2rem,2vw,1.6rem)}.closing-quote small{color:#777;font:.55rem/1.5 var(--font-mono);letter-spacing:.14em;text-align:right}
+	@media(max-width:700px){.about{padding:1.2rem 1.1rem 3rem}.intro{grid-template-columns:1fr;gap:2rem;padding:3rem 0 2rem}.manifesto{grid-template-columns:1fr;gap:1rem;padding:1.5rem 0 3rem}.caption{grid-template-columns:1fr 1fr}.credit{grid-column:1/-1;grid-row:2;justify-self:start;text-align:left}.caption>span:last-child{text-align:right}.story{grid-template-columns:1fr;gap:1.5rem;padding:4rem 0}.contact{grid-template-columns:1fr;gap:2rem;margin-bottom:2rem}.closing-quote{grid-column:1;align-items:start;gap:1rem;flex-direction:column}.closing-quote small{text-align:left}}
 </style>

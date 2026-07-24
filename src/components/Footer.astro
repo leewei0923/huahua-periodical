@@ -1,4 +1,5 @@
 ---
+import { SUBMISSION_EMAIL } from '../consts';
 const year = new Date().getFullYear();
 ---
 
@@ -8,7 +9,7 @@ const year = new Date().getFullYear();
 		<p>一本按周生长、按月装订、按年收藏的个人刊物。<br />把日子装订成册。</p>
 		<div class="footer-meta">
 			<span>© {year} 花花有期</span>
-			<span class="feeds"><a href="/rss.xml">文章 RSS</a><a href="/weekly/rss.xml">周刊 RSS</a><a href="/feed.json">JSON Feed</a><a href="/data/v1/site.json">开放数据</a></span>
+			<span class="feeds"><a href="/submit">欢迎投稿</a><a href={`mailto:${SUBMISSION_EMAIL}`}>{SUBMISSION_EMAIL}</a><a href="/rss.xml">文章 RSS</a><a href="/weekly/rss.xml">周刊 RSS</a><a href="/feed.json">JSON Feed</a><a href="/data/v1/site.json">开放数据</a></span>
 			<span>SET IN SOURCE SERIF</span>
 		</div>
 	</div>
