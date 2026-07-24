@@ -12,7 +12,7 @@ const posts = getPublishedPosts(await getCollection('blog'));
 
 <!doctype html>
 <html lang="zh-CN">
-	<head><BaseHead title="文章 · 花花的刊物" description={SITE_DESCRIPTION} /></head>
+	<head><BaseHead title="文章 · 花花有期" description={SITE_DESCRIPTION} /></head>
 	<body>
 		<Header />
 		<main class="archive">
@@ -26,7 +26,7 @@ const posts = getPublishedPosts(await getCollection('blog'));
 				{posts.map((post, index) => <article data-lang={post.data.lang} data-tags={post.data.tags.join(' ')}>
 					<a class="thumb" href={`/blog/${post.id}/`}>{post.data.heroImage && <Image src={post.data.heroImage} alt="" widths={[320, 560]} sizes="(max-width: 700px) 100vw, 28vw" />}</a>
 					<div class="number">{String(index + 1).padStart(2, '0')}</div>
-					<div class="post-copy"><div class="meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.lang.toUpperCase()}</span><span>{post.data.issue ?? 'JOURNAL'}</span></div><h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
+					<div class="post-copy"><div class="meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.lang.toUpperCase()}</span><span>{post.data.issue ?? 'HUĀHUĀ PERIODICAL'}</span></div><h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
 					<a class="arrow" href={`/blog/${post.id}/`} aria-label={`阅读 ${post.data.title}`}>↗</a>
 				</article>)}
 			</section>

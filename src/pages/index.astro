@@ -24,13 +24,16 @@ const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], limit: 3
 		<main class="home">
 			<section class="masthead">
 				<div class="edition-line">
-					<span>一本关于生活与感受的个人刊物</span>
-					<span class="red">{period.id} · {formatPeriodRange(period)}</span>
+					<span>一本按周生长、按月装订、按年收藏的个人刊物</span>
+					<span class="red">花花有期 · {period.title}</span>
 				</div>
 				<div class="title-row">
-					<div><p class="eyebrow">THE PERSONAL JOURNAL OF</p><h1>花花的<br />刊物</h1></div>
-					<p class="manifesto">首页只收录这一周。<br />新写下的，总在最前面。<br /><em>New notes, this week only.</em></p>
-					<div class="seal" aria-hidden="true"><span>本<br />周</span><small>WEEK<br />{String(period.number).padStart(2, '0')}</small></div>
+					<div class="brand-title">
+						<h1><span>花花</span><span>有期</span></h1>
+						<p class="english-title"><span>HUĀHUĀ</span><span>PERIODICAL</span></p>
+					</div>
+					<p class="manifesto">按周生长，按月装订，<br />按年收藏。<br /><em>把日子装订成册。</em></p>
+					<div class="seal" aria-hidden="true"><span>有<br />期</span><small>WEEK<br />{String(period.number).padStart(2, '0')}</small></div>
 				</div>
 			</section>
 
@@ -105,7 +108,9 @@ const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], limit: 3
 	.red, .kicker { color: var(--accent); }
 	.title-row { min-height: 270px; display: grid; grid-template-columns: 1.45fr .8fr auto; gap: 3rem; align-items: center; }
 	.eyebrow { margin: 0 0 .4rem; font: 500 .62rem/1 var(--font-mono); letter-spacing: .2em; color: var(--fg-muted); }
-	h1 { margin: 0; font-size: clamp(4.2rem, 9vw, 7.5rem); line-height: .82; letter-spacing: -.06em; }
+	h1 { margin: 0; font-size: clamp(3.8rem, 8vw, 6.9rem); line-height: .86; letter-spacing: -.06em; }
+	h1 span, .english-title span { display: block; }
+	.english-title { margin: 1.2rem 0 0; color: var(--fg-muted); font: 600 clamp(.72rem, 1.1vw, .92rem)/1.25 var(--font-mono); letter-spacing: .24em; }
 	.manifesto { align-self: end; margin: 0 0 1.2rem; font-size: 1.05rem; line-height: 1.75; }
 	.manifesto em { font-size: .82rem; color: var(--fg-muted); }
 	.seal { width: 92px; height: 92px; display: grid; grid-template-columns: 1fr 1fr; place-items: center; transform: rotate(5deg); border: 1px solid var(--accent); color: var(--accent); }

@@ -5,7 +5,7 @@ export const GET: APIRoute = () =>
 	jsonResponse({
 		$schema: 'https://json-schema.org/draft/2020-12/schema',
 		$id: '/data/v1/schema.json',
-		title: '花花的刊物开放数据',
+		title: '花花有期开放数据',
 		type: 'object',
 		description: 'items.json 中单条内容的数据结构。',
 		required: ['id', 'url', 'title', 'description', 'publishedAt', 'lang', 'type', 'tags', 'periods'],

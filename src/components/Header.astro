@@ -9,9 +9,9 @@ const currentWeek = getCurrentPeriod('weekly');
 <header class="site-header">
 	<nav class="nav-shell" aria-label="Primary navigation">
 		<a class="wordmark" href="/" aria-label={`${SITE_TITLE}首页`}>
-			<span class="wordmark-cn">花花</span>
+			<span class="wordmark-cn"><span>花花</span><span>有期</span></span>
 			<span class="wordmark-dot">●</span>
-			<span class="wordmark-en">Journal</span>
+			<span class="wordmark-en"><span>HUĀHUĀ</span><span>PERIODICAL</span></span>
 		</a>
 		<div class="nav-links">
 			<a class:list={{ active: isActive('/blog') }} href="/blog">文章 <span>Stories</span></a>
@@ -30,10 +30,11 @@ const currentWeek = getCurrentPeriod('weekly');
 	.site-header { position: sticky; top: 0; z-index: 20; padding: 0 2rem; background: color-mix(in srgb, var(--bg-soft) 91%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); }
 	.nav-shell { max-width: 1280px; min-height: 66px; margin: auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; }
 	a { color: var(--fg); text-decoration: none; }
-	.wordmark { display: flex; align-items: baseline; gap: .55rem; width: max-content; }
-	.wordmark-cn { font-size: 1.15rem; font-weight: 700; letter-spacing: .08em; }
+	.wordmark { display: flex; align-items: center; gap: .55rem; width: max-content; }
+	.wordmark-cn, .wordmark-en { display: flex; flex-direction: column; line-height: 1.05; }
+	.wordmark-cn { font-size: .88rem; font-weight: 700; letter-spacing: .08em; }
 	.wordmark-dot { color: var(--accent); font-size: .55rem; }
-	.wordmark-en { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--fg-muted); }
+	.wordmark-en { font-family: var(--font-mono); font-size: .48rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-muted); }
 	.nav-links { display: flex; align-self: stretch; gap: 1.4rem; }
 	.nav-links a { position: relative; display: flex; align-items: center; gap: .45rem; font-size: .86rem; }
 	.nav-links a span { font-family: var(--font-mono); font-size: .58rem; letter-spacing: .12em; color: var(--fg-muted); text-transform: uppercase; }
