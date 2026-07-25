@@ -8,4 +8,9 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: process.env.SITE_URL ?? 'https://huahua.7miaoyu.com',
 	integrations: [mdx(), sitemap()],
+	vite: {
+		ssr: {
+			external: ['picomatch'],
+		},
+	},
 });
