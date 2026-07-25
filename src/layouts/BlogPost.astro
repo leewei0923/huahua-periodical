@@ -1,30 +1,31 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import QiniuImage from '../components/QiniuImage.astro';
+import { getContentTypeLabel } from '../lib/content';
 type Props = CollectionEntry<'blog'>['data'];
-const { title, description, pubDate, updatedDate, heroImage, lang = 'zh', tags = [], issue } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, language, contentType, author, topics, issueOverride } = Astro.props;
 ---
 
-<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
-	<head><BaseHead title={title} description={description} /></head>
-	<body>
+<html lang={language}>
+	<head><BaseHead title={title} description={description} image={heroImage?.src} /></head>
+	<body class="article-body">
 		<Header />
 		<main class="article-page">
 			<article>
 				<header class="article-head">
-					<div class="topline"><a href="/blog">← ARCHIVE</a><span>{issue ?? 'HUĀHUĀ PERIODICAL'} · {lang.toUpperCase()}</span></div>
-					<p class="kicker">ESSAY · 随笔</p>
+					<div class="topline"><a href="/blog">← ARCHIVE</a><span>{issueOverride ?? 'HUĀHUĀ PERIODICAL'} · {language.toUpperCase()}</span></div>
+					<p class="kicker">{getContentTypeLabel(contentType, 'en').toUpperCase()} · {getContentTypeLabel(contentType)}</p>
 					<h1>{title}</h1>
 					<p class="dek">{description}</p>
-					<div class="byline"><span>WRITTEN BY 花花</span><FormattedDate date={pubDate} /><span>8 MIN READ</span></div>
+					<div class="byline"><span>WRITTEN BY {author}</span><FormattedDate date={pubDate} /><span>8 MIN READ</span></div>
 				</header>
-				{heroImage && <figure class="hero-image"><Image width={1280} height={720} src={heroImage} alt={title} /><figcaption>PHOTO / PERSONAL ARCHIVE</figcaption></figure>}
+				{heroImage && <figure class="hero-image"><QiniuImage {...heroImage} sizes="(max-width: 800px) 100vw, 1280px" priority /><figcaption>PHOTO / PERSONAL ARCHIVE</figcaption></figure>}
 				<div class="article-grid">
-					<aside><span>SHARE</span><a href="#">复制链接</a>{tags.map(tag => <span>#{tag}</span>)}</aside>
+					<aside><span>SHARE</span><a href="#">复制链接</a>{topics.map(topic => <span>#{topic}</span>)}</aside>
 					<div class="prose"><slot />{updatedDate && <p class="updated">最后更新于 <FormattedDate date={updatedDate} /></p>}</div>
 				</div>
 			</article>

@@ -1,0 +1,50 @@
+---
+interface Props {
+	src: string;
+	width?: number;
+	height?: number;
+	alt: string;
+	sizes?: string;
+	priority?: boolean;
+	class?: string;
+}
+
+import { getQiniuImageInfo } from '../lib/qiniu';
+
+const {
+	src,
+	width: configuredWidth,
+	height: configuredHeight,
+	alt,
+	sizes = '100vw',
+	priority = false,
+	class: className,
+} = Astro.props;
+
+const inferred = configuredWidth && configuredHeight
+	? null
+	: await getQiniuImageInfo(src);
+const width = configuredWidth ?? inferred!.width;
+const height = configuredHeight ?? inferred!.height;
+
+const responsiveWidths = [...new Set([
+	...[480, 800, 1280].filter((candidate) => candidate < width),
+	width,
+])].sort((a, b) => a - b);
+const transform = (targetWidth: number) =>
+	`${src}?imageView2/2/w/${targetWidth}/format/webp/q/82/strip`;
+const fallbackWidth = responsiveWidths.find((candidate) => candidate >= 800) ?? responsiveWidths.at(-1) ?? width;
+---
+
+<img
+	src={transform(fallbackWidth)}
+	srcset={responsiveWidths.map((candidate) => `${transform(candidate)} ${candidate}w`).join(', ')}
+	{sizes}
+	{width}
+	{height}
+	{alt}
+	class={className}
+	loading={priority ? 'eager' : 'lazy'}
+	fetchpriority={priority ? 'high' : 'auto'}
+	decoding="async"
+/>

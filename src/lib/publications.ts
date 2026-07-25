@@ -36,9 +36,14 @@ const snapshotModules = import.meta.glob<{ default: IssueSnapshot }>('../data/is
 
 const snapshots = Object.values(snapshotModules).map((module) => module.default);
 
+function getPostPeriodId(post: BlogPost, kind: PeriodKind): string {
+	if (kind === 'weekly' && post.data.issueOverride) return post.data.issueOverride;
+	return getPeriodId(post.data.pubDate, kind);
+}
+
 export function getPublishedPosts(posts: BlogPost[], now = new Date()): BlogPost[] {
 	return posts
-		.filter((post) => !post.data.draft && post.data.pubDate.valueOf() <= now.valueOf())
+		.filter((post) => post.data.status === 'published' && post.data.pubDate.valueOf() <= now.valueOf())
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
 
@@ -55,7 +60,7 @@ export function getIssuePosts(posts: BlogPost[], kind: PeriodKind, id: string): 
 			.filter((post) => order.has(post.id))
 			.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
 	}
-	return published.filter((post) => getPeriodId(post.data.pubDate, kind) === id);
+	return published.filter((post) => getPostPeriodId(post, kind) === id);
 }
 
 export function getFeaturedPosts(
@@ -92,7 +97,7 @@ export function getEvergreenPosts(posts: BlogPost[]): BlogPost[] {
 
 export function getPeriodEntries(posts: BlogPost[], kind: PeriodKind): PeriodEntry[] {
 	const published = getPublishedPosts(posts);
-	const ids = new Set(published.map((post) => getPeriodId(post.data.pubDate, kind)));
+	const ids = new Set(published.map((post) => getPostPeriodId(post, kind)));
 	const currentId = getCurrentPeriod(kind).id;
 	ids.add(currentId);
 	for (const snapshot of snapshots) {
@@ -116,7 +121,7 @@ export function getPeriodEntries(posts: BlogPost[], kind: PeriodKind): PeriodEnt
 
 export function getCurrentIssuePosts(posts: BlogPost[], kind: PeriodKind, now = new Date()): BlogPost[] {
 	const period = getCurrentPeriod(kind, now);
-	return getPublishedPosts(posts, now).filter((post) => getPeriodId(post.data.pubDate, kind) === period.id);
+	return getPublishedPosts(posts, now).filter((post) => getPostPeriodId(post, kind) === period.id);
 }
 
 export function serializePost(post: BlogPost, site: URL) {
@@ -128,9 +133,10 @@ export function serializePost(post: BlogPost, site: URL) {
 		description: post.data.description,
 		publishedAt: post.data.pubDate.toISOString(),
 		updatedAt: post.data.updatedDate?.toISOString() ?? null,
-		lang: post.data.lang,
-		type: post.data.type,
-		tags: post.data.tags,
+		// Keep the v1 wire format stable while frontmatter uses clearer field names.
+		lang: post.data.language.startsWith('en') ? 'en' : 'zh',
+		type: post.data.contentType,
+		tags: post.data.topics,
 		image,
 		featured: post.data.featured,
 		featuredOrder: post.data.featuredOrder ?? null,

@@ -1,0 +1,40 @@
+{
+  "site": {
+    "title": "花花有期",
+    "description": "一本按周生长、按月装订、按年收藏的个人刊物。"
+  },
+  "publication": {
+    "timeZone": "Asia/Shanghai",
+    "defaultIssueType": "weekly"
+  },
+  "submission": {
+    "email": "leewei@icenew.top"
+  },
+  "content": {
+    "defaults": {
+      "language": "zh-CN",
+      "contentType": "essay",
+      "author": "花花",
+      "status": "published",
+      "topics": ["随笔"]
+    },
+    "types": {
+      "essay": {
+        "label": "随笔",
+        "labelEn": "Essay"
+      },
+      "note": {
+        "label": "短记",
+        "labelEn": "Note"
+      },
+      "photo": {
+        "label": "影像",
+        "labelEn": "Photo"
+      },
+      "link": {
+        "label": "摘选",
+        "labelEn": "Link"
+      }
+    }
+  }
+}

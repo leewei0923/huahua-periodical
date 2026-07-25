@@ -94,4 +94,20 @@ import { SUBMISSION_EMAIL } from '../consts';
 	.story{display:grid;grid-template-columns:180px minmax(0,700px);justify-content:center;gap:3rem;padding:6rem 0}.story aside{color:var(--accent);font:.6rem/1.7 var(--font-mono);letter-spacing:.14em}.story h2{font-size:clamp(2rem,4vw,3.2rem)}.story p{font-size:1.02rem;line-height:1.95}.story blockquote{margin-top:2.5rem;font-size:1.3rem}
 	.contact{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:5rem;padding:clamp(2rem,6vw,5rem);background:var(--fg);color:white}.contact h2{color:white;font-size:clamp(2.2rem,5vw,4.2rem)}.open-call-copy{align-self:end}.open-call-copy>p{max-width:42rem;color:#aaa}.open-call-copy ul{margin:0 0 1.5rem;padding:1rem 0;list-style:none;border-top:1px solid #333;border-bottom:1px solid #333}.open-call-copy li{padding:.35rem 0;color:#eee}.open-call-copy li::before{content:'—';margin-right:.7rem;color:var(--accent)}.submission-note strong{color:white}.email-label{margin:2rem 0 .2rem!important;color:#777!important;font:.58rem var(--font-mono);letter-spacing:.14em}.contact a{display:block;width:max-content;max-width:100%;color:var(--accent);text-decoration:none}.email{font-size:clamp(1.25rem,2.4vw,2rem);overflow-wrap:anywhere}.guide-link{margin-top:1.5rem;font:.62rem var(--font-mono);letter-spacing:.12em}.closing-quote{grid-column:1/-1;display:flex;justify-content:space-between;align-items:end;margin:1rem 0 0;padding:2rem 0 0;color:white;border-top:3px double #555;border-left:0;font-style:normal}.closing-quote span{font-size:clamp(1.2rem,2vw,1.6rem)}.closing-quote small{color:#777;font:.55rem/1.5 var(--font-mono);letter-spacing:.14em;text-align:right}
 	@media(max-width:700px){.about{padding:1.2rem 1.1rem 3rem}.intro{grid-template-columns:1fr;gap:2rem;padding:3rem 0 2rem}.manifesto{grid-template-columns:1fr;gap:1rem;padding:1.5rem 0 3rem}.caption{grid-template-columns:1fr 1fr}.credit{grid-column:1/-1;grid-row:2;justify-self:start;text-align:left}.caption>span:last-child{text-align:right}.story{grid-template-columns:1fr;gap:1.5rem;padding:4rem 0}.contact{grid-template-columns:1fr;gap:2rem;margin-bottom:2rem}.closing-quote{grid-column:1;align-items:start;gap:1rem;flex-direction:column}.closing-quote small{text-align:left}}
+	:global([data-theme="dark"]) .about{--about-ink:#101210;--about-line:#414640;--about-text:#eeeae1;--about-muted:#aaa79e;--about-accent:#ef6f67;color:var(--about-text)}
+	:global([data-theme="dark"]) .rule{color:var(--about-muted);border-color:#c5c2b9}
+	:global([data-theme="dark"]) .kicker,:global([data-theme="dark"]) .story aside{color:var(--about-accent)}
+	:global([data-theme="dark"]) .manifesto{border-color:var(--about-line)}
+	:global([data-theme="dark"]) .manifesto p,:global([data-theme="dark"]) .caption{color:var(--about-muted)}
+	:global([data-theme="dark"]) .manifesto p:nth-child(2){color:var(--about-text)}
+	:global([data-theme="dark"]) .portrait :global(img){filter:saturate(.62) brightness(.84) contrast(1.05)}
+	:global([data-theme="dark"]) .credit a:hover{color:var(--about-accent)}
+	:global([data-theme="dark"]) .contact{color:var(--about-text);background:var(--about-ink);box-shadow:inset 0 0 0 1px #292d29}
+	:global([data-theme="dark"]) .contact h2,:global([data-theme="dark"]) .submission-note strong,:global([data-theme="dark"]) .closing-quote{color:var(--about-text)}
+	:global([data-theme="dark"]) .open-call-copy>p{color:var(--about-muted)}
+	:global([data-theme="dark"]) .open-call-copy ul{border-color:var(--about-line)}
+	:global([data-theme="dark"]) .open-call-copy li{color:#ddd9d0}
+	:global([data-theme="dark"]) .contact a{color:var(--about-accent)}
+	:global([data-theme="dark"]) .email-label,:global([data-theme="dark"]) .closing-quote small{color:#8f928c!important}
+	:global([data-theme="dark"]) .closing-quote{border-color:#555b55}
 </style>

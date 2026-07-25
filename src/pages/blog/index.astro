@@ -1,10 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
+import QiniuImage from '../../components/QiniuImage.astro';
 import { SITE_DESCRIPTION } from '../../consts';
 import { getPublishedPosts } from '../../lib/publications';
 const posts = getPublishedPosts(await getCollection('blog'));
@@ -23,10 +23,10 @@ const posts = getPublishedPosts(await getCollection('blog'));
 			</header>
 			<div class="filters" aria-label="文章筛选"><button class="active" data-filter="all">全部 ALL</button><button data-filter="essay">随笔 ESSAY</button><button data-filter="life">生活 LIFE</button></div>
 			<section class="post-list">
-				{posts.map((post, index) => <article data-lang={post.data.lang} data-tags={post.data.tags.join(' ')}>
-					<a class="thumb" href={`/blog/${post.id}/`}>{post.data.heroImage && <Image src={post.data.heroImage} alt="" widths={[320, 560]} sizes="(max-width: 700px) 100vw, 28vw" />}</a>
+				{posts.map((post, index) => <article data-lang={post.data.language} data-tags={post.data.topics.join(' ')}>
+					<a class="thumb" href={`/blog/${post.id}/`}>{post.data.heroImage && <QiniuImage {...post.data.heroImage} alt="" sizes="(max-width: 700px) 100vw, 28vw" />}</a>
 					<div class="number">{String(index + 1).padStart(2, '0')}</div>
-					<div class="post-copy"><div class="meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.lang.toUpperCase()}</span><span>{post.data.issue ?? 'HUĀHUĀ PERIODICAL'}</span></div><h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
+					<div class="post-copy"><div class="meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.language.toUpperCase()}</span><span>{post.data.issueOverride ?? 'HUĀHUĀ PERIODICAL'}</span></div><h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
 					<a class="arrow" href={`/blog/${post.id}/`} aria-label={`阅读 ${post.data.title}`}>↗</a>
 				</article>)}
 			</section>

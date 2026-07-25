@@ -1,10 +1,11 @@
 ---
-import { Image } from 'astro:assets';
 import BaseHead from './BaseHead.astro';
 import Footer from './Footer.astro';
 import FormattedDate from './FormattedDate.astro';
 import Header from './Header.astro';
+import QiniuImage from './QiniuImage.astro';
 import { SITE_TITLE } from '../consts';
+import { getContentTypeLabel } from '../lib/content';
 import { formatPeriodRange, kindLabel, type PeriodInfo, type PeriodKind } from '../lib/periods';
 import { getFeaturedPosts, type BlogPost, type IssueSnapshot } from '../lib/publications';
 
@@ -23,7 +24,7 @@ const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], snapshot
 
 <!doctype html>
 <html lang="zh-CN">
-	<head><BaseHead title={`${period.title} · ${SITE_TITLE}`} description={snapshot?.summary ?? `${period.title}，共收录 ${posts.length} 篇内容。`} image={lead?.data.heroImage} /></head>
+	<head><BaseHead title={`${period.title} · ${SITE_TITLE}`} description={snapshot?.summary ?? `${period.title}，共收录 ${posts.length} 篇内容。`} image={lead?.data.heroImage?.src} /></head>
 	<body>
 		<Header />
 		<main class="issue">
@@ -39,11 +40,11 @@ const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], snapshot
 			{lead && (
 				<section class="lead">
 					<a class="lead-image" href={`/blog/${lead.id}/`}>
-						{lead.data.heroImage && <Image src={lead.data.heroImage} alt={lead.data.title} widths={[720, 1280]} sizes="(max-width: 800px) 100vw, 62vw" />}
+						{lead.data.heroImage && <QiniuImage {...lead.data.heroImage} sizes="(max-width: 800px) 100vw, 62vw" priority />}
 						<span>LATEST / 最新发布</span>
 					</a>
 					<div class="lead-copy">
-						<p class="kicker">{lead.data.type.toUpperCase()} · {lead.data.lang.toUpperCase()}</p>
+						<p class="kicker">{getContentTypeLabel(lead.data.contentType, 'en').toUpperCase()} · {lead.data.language.toUpperCase()}</p>
 						<h2><a href={`/blog/${lead.id}/`}>{lead.data.title}</a></h2>
 						<p>{lead.data.description}</p>
 						<FormattedDate date={lead.data.pubDate} />
@@ -75,7 +76,7 @@ const picks = getFeaturedPosts(posts, { exclude: lead ? [lead.id] : [], snapshot
 							<article>
 								<span class="post-no">{String(index + 1).padStart(2, '0')}</span>
 								<div class="post-copy">
-									<div class="meta"><FormattedDate date={post.data.pubDate} /><span>{post.data.type}</span><span>{post.data.lang}</span></div>
+									<div class="meta"><FormattedDate date={post.data.pubDate} /><span>{getContentTypeLabel(post.data.contentType)}</span><span>{post.data.language}</span></div>
 									<h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
 									<p>{post.data.description}</p>
 								</div>

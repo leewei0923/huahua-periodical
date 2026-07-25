@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "content:new": "node scripts/create-content.mjs",
     "publication:close": "node scripts/close-publication.mjs"
   },
   "dependencies": {

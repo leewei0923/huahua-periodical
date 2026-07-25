@@ -47,24 +47,76 @@ pnpm preview
 
 ## 发布一篇内容
 
-在 `src/content/blog/` 新建 `.md` 或 `.mdx` 文件：
+运行下面的命令，会在 `src/content/blog/` 生成一份安全的草稿模板：
+
+```sh
+pnpm content:new
+pnpm content:new -- my-first-post
+pnpm content:new -- travel/suzhou --type=photo --title="苏州一日"
+```
+
+不传 slug 时会自动使用 `untitled-日期时间`。模板会填入上海时区的创建时间和
+`config.json` 中的默认值；填写完成后，将 frontmatter 中的 `status` 从 `draft`
+改为 `published`。命令不会覆盖已有文件。
+
+可用参数：
+
+```text
+--title=<标题>          预填标题
+--description=<摘要>   预填摘要
+--type=<类型>          essay、note、photo 或 link
+--topics=<主题>        用逗号分隔多个主题
+--mdx                  生成 .mdx 文件
+--publish              直接生成 published 内容
+--help                 查看命令帮助
+```
+
+文章的公共默认值集中保存在根目录的 `config.json`：
+
+```json
+{
+  "site": {
+    "title": "花花有期",
+    "description": "一本按周生长、按月装订、按年收藏的个人刊物。"
+  },
+  "publication": {
+    "timeZone": "Asia/Shanghai"
+  },
+  "submission": {
+    "email": "leewei@icenew.top"
+  },
+  "content": {
+    "defaults": {
+      "language": "zh-CN",
+      "contentType": "essay",
+      "author": "花花",
+      "status": "published",
+      "topics": ["随笔"]
+    }
+  }
+}
+```
+
+站点标题、描述、刊物时区、投稿邮箱默认值和文章默认字段都由这份配置统一管理。`consts.ts` 负责向现有页面导出站点配置；内容 schema 会读取并校验文章默认值。
+
+部署环境中的 `PUBLIC_SUBMISSION_EMAIL` 优先于 `config.json` 的 `submission.email`，方便在不同环境使用不同投稿邮箱。
 
 ```yaml
 ---
 title: '今天遇见的一场雨'
 description: '夏日下午的一段记录。'
-pubDate: '2026-07-23T18:30:00+08:00'
-lang: zh
-type: note
-tags: ['生活', '夏天']
-
-draft: false
-
+pubDate: '2026-07-25T12:00:00+08:00'
+language: 'zh-CN'
+contentType: 'essay'
+status: 'published'
+author: '花花'
+topics: ['随笔']
 featured: true
 featuredOrder: 1
-
 evergreen: false
-heroImage: '../../assets/example.jpg'
+heroImage:
+  src: 'https://example.com/example.jpg'
+  alt: '雨后的街道'
 ---
 
 正文从这里开始。
@@ -74,13 +126,22 @@ heroImage: '../../assets/example.jpg'
 
 | 字段 | 作用 |
 | --- | --- |
-| `pubDate` | 发布时间。建议带 `+08:00`，避免跨时区日期偏移 |
-| `type` | `essay`、`note`、`photo` 或 `link` |
-| `draft` | 为 `true` 时不会出现在页面、JSON 或 RSS |
+| `pubDate` | 发布时间。创建文章时如果没有另行指定，就填写文章创建当下的上海时间，并固定写入文件；格式为 ISO 8601，必须带 `+08:00`，例如 `2026-07-25T12:00:00+08:00` |
+| `contentType` | 未填写时读取 `config.json`，当前默认值为 `essay`；也可使用 `note`、`photo` 或 `link` |
+| `topics` | 内容主题；未填写时读取 `config.json` |
+| `status` | `draft` 不会出现在页面、JSON 或 RSS；完成后改为 `published` |
 | `featured` | 是否进入所在周刊的“本周精选” |
 | `featuredOrder` | 本周精选顺序，从 1 开始 |
 | `evergreen` | 是否进入 `/picks/` 长期精选 |
 | `evergreenOrder` | 长期精选顺序，从 1 开始 |
+
+新建文章时的默认规则：
+
+1. 没有指定发布时间：使用创建文章当下的上海时间，并将完整时间固定写入 `pubDate`。
+2. 没有指定内容类型：使用 `config.json` 中的 `content.defaults.contentType`。
+3. 没有指定主题：使用 `config.json` 中的 `content.defaults.topics`。
+
+`pubDate` 不使用构建时动态默认值。时间一旦随文章创建并写入文件，后续重新构建不会改变发布时间，也不会让文章被错误地移动到新的周刊、月刊或年刊。
 
 文章不需要手动填写周、月、年编号。程序会根据 `pubDate` 和 `Asia/Shanghai` 自动计算：
 
