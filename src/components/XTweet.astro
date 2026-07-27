@@ -1,0 +1,51 @@
+---
+interface Props {
+	id: string;
+	theme?: 'light' | 'dark';
+	align?: 'left' | 'center' | 'right';
+}
+
+const { id, theme = 'light', align = 'center' } = Astro.props;
+---
+
+<div class="tweet-wrapper" style={`text-align: ${align};`}>
+	<blockquote class="twitter-tweet" data-theme={theme} data-dnt="true">
+		<a href={`https://twitter.com/i/status/${id}`}>Loading tweet...</a>
+	</blockquote>
+</div>
+
+<script>
+	function loadTwitterWidget() {
+		if (document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')) {
+			window.twttr?.widgets?.load();
+			return;
+		}
+		const script = document.createElement('script');
+		script.src = 'https://platform.twitter.com/widgets.js';
+		script.async = true;
+		script.charset = 'utf-8';
+		document.head.appendChild(script);
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', loadTwitterWidget, { once: true });
+	} else {
+		loadTwitterWidget();
+	}
+
+	document.addEventListener('astro:page-load', () => {
+		window.twttr?.widgets?.load();
+	});
+</script>
+
+<style>
+	.tweet-wrapper {
+		margin: 2rem 0;
+		display: flex;
+		justify-content: center;
+	}
+
+	.tweet-wrapper :global(.twitter-tweet) {
+		margin: 0 auto;
+	}
+</style>
