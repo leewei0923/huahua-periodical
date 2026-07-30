@@ -153,6 +153,127 @@ year:  2026
 
 `issue` 旧字段仍兼容，但新的刊期系统不再依赖它。
 
+## 组件使用
+
+### B站视频嵌入
+
+在MDX文件中可以使用 `BiliBliVideo` 组件嵌入B站视频：
+
+```jsx
+import BiliBliVideo from '../../components/BiliBliVideo.astro';
+
+<BiliBliVideo bvid="BV1GJ411x7h7" />
+```
+
+#### 可用参数
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| bvid | string | 必填 | B站视频的BV号 |
+| page | number | 1 | 视频分P |
+| highQuality | number | 0 | 是否高画质（0否，1是） |
+| autoplay | number | 0 | 是否自动播放（0否，1是） |
+| danmaku | number | 1 | 是否显示弹幕（0否，1是） |
+| width | string | 100% | 宽度 |
+| height | string | 500px | 高度 |
+| align | string | center | 对齐方式（left, center, right） |
+| title | string | 可选 | 视频标题，显示在播放器下方 |
+| author | string | 可选 | 博主名称，显示来源信息 |
+| authorUrl | string | 可选 | 博主主页链接，点击可跳转 |
+
+#### 示例
+
+基本用法：
+```jsx
+<BiliBliVideo bvid="BV1GJ411x7h7" />
+```
+
+带来源信息：
+```jsx
+<BiliBliVideo 
+  bvid="BV1GJ411x7h7"
+  title="视频标题"
+  author="UP主名称"
+  authorUrl="https://space.bilibili.com/用户ID"
+/>
+```
+
+自定义参数：
+```jsx
+<BiliBliVideo 
+  bvid="BV1GJ411x7h7" 
+  height="400px"
+  autoplay={1}
+  danmaku={0}
+/>
+```
+
+#### 功能特性
+
+- **悬浮跳转按钮**：鼠标悬停时显示"在B站观看"按钮，点击跳转到B站视频页
+- **来源信息**：可显示视频标题和博主信息
+- **博主链接**：点击博主名称可跳转到其B站主页
+
+### Twitter推文嵌入
+
+使用 `XTweet` 组件嵌入Twitter推文：
+
+```jsx
+import XTweet from '../../components/XTweet.astro';
+
+<XTweet id="推文ID" />
+```
+
+### 语音模式 (AudioPlayer)
+
+支持 MP3 音频播放 + SRT 字幕同步显示，带打字机动画效果。
+
+#### 基本用法
+
+```mdx
+---
+contentType: audio
+audio:
+  src: "/1.mp3"
+  subtitle: "/1.srt"
+---
+
+import AudioPlayer from '../../components/AudioPlayer.astro';
+
+<AudioPlayer src="/1.mp3" subtitle="/1.srt" />
+```
+
+#### 可用参数
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| src | string | 必填 | MP3 音频文件路径 |
+| subtitle | string | 可选 | SRT 字幕文件路径 |
+| title | string | 可选 | 标题（预留） |
+
+#### 功能特性
+
+- **播放控制**：播放/暂停、进度条拖拽、速度调节（0.75x/1x/1.25x/1.5x/2x）
+- **字幕同步**：根据播放时间自动高亮当前字幕
+- **打字机动画**：当前字幕逐字显示，带光标闪烁效果
+- **模式切换**：语音模式 ↔ 纯文本模式
+- **全屏专注**：点击全屏按钮进入沉浸式播放，按 ESC 退出
+- **纯文本交互**：点击任意行可跳转播放
+
+#### Frontmatter 配置
+
+```yaml
+contentType: audio
+audio:
+  src: "/path/to/audio.mp3"      # 音频文件路径
+  subtitle: "/path/to/subtitle.srt"  # 字幕文件路径（可选）
+```
+
+#### 文件存储
+
+- 测试阶段：将 MP3 和 SRT 文件放在 `public/` 目录
+- 生产环境：使用七牛云 CDN，路径格式为 `https://qi.7miaoyu.com/...`
+
 ## 精选规则
 
 首页分为两个独立区域：

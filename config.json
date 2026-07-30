@@ -34,6 +34,10 @@
       "link": {
         "label": "摘选",
         "labelEn": "Link"
+      },
+      "audio": {
+        "label": "语音",
+        "labelEn": "Audio"
       }
     }
   }

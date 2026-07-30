@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import config from '../config.json';
 
-const contentType = z.enum(['essay', 'note', 'photo', 'link']);
+const contentType = z.enum(['essay', 'note', 'photo', 'link', 'audio']);
 const language = z.enum(['zh-CN', 'zh-TW', 'en-US']);
 const contentStatus = z.enum(['draft', 'published', 'archived']);
 
@@ -51,6 +51,10 @@ const blog = defineCollection({
 				(image) => (image.width === undefined) === (image.height === undefined),
 				{ message: 'heroImage 的 width 和 height 必须同时填写，或同时省略。' },
 			).optional(),
+			audio: z.object({
+				src: z.string(),
+				subtitle: z.string().optional(),
+			}).optional(),
 		}),
 });
 
