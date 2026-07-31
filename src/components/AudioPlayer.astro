@@ -8,26 +8,12 @@ interface Props {
 const { src, subtitle, title } = Astro.props;
 ---
 
-{/* SVG 溶解滤镜 - 全局定义 */}
-<svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
-  <defs>
-    <filter id="dissolve-filter" x="-200%" y="-200%" width="500%" height="500%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.002" numOctaves="1" result="big" />
-      <feComponentTransfer in="big" result="bigAdj">
-        <feFuncR type="linear" slope="5" intercept="-2" />
-        <feFuncG type="linear" slope="5" intercept="-2" />
-      </feComponentTransfer>
-      <feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="1" result="fine" />
-      <feMerge result="noise">
-        <feMergeNode in="bigAdj" />
-        <feMergeNode in="fine" />
-      </feMerge>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-  </defs>
-</svg>
+<div class="audio-mode-container" data-src={src} data-subtitle={subtitle} data-title={title}>
+  <div class="audio-module-head">
+    <span>LISTENING TRANSCRIPT / 听稿</span>
+    <small>{title || 'VOICE NOTE'}</small>
+  </div>
 
-<div class="audio-mode-container" data-src={src} data-subtitle={subtitle}>
   {/* 模式切换 */}
   <div class="mode-switch">
     <div class="mode-switch-left">
@@ -57,53 +43,58 @@ const { src, subtitle, title } = Astro.props;
     </div>
   </div>
 
-  {/* 内容区域 - 带溶解滤镜 */}
-  <div class="content-wrapper">
-    {/* 播放器区域 - 语音模式 */}
-    <div class="audio-panel">
-      {/* 播放控制栏 */}
-      <div class="player-controls">
-        <button class="play-btn" aria-label="播放">
-          <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z"></path>
-          </svg>
-          <svg class="pause-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6 4h4v16H6zM14 4h4v16h-4z"></path>
-          </svg>
-        </button>
-        
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-            <div class="progress-handle"></div>
-          </div>
+  {/* 播放器区域 - 语音模式 */}
+  <div class="audio-panel">
+    {/* 播放控制栏 */}
+    <div class="player-controls">
+      <button class="play-btn" aria-label="播放">
+        <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="pause-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 4h4v16H6zM14 4h4v16h-4z"></path>
+        </svg>
+      </button>
+      
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+          <div class="progress-handle"></div>
         </div>
-        
-        <span class="time-display">
-          <span class="current-time">00:00</span>
-          <span class="separator">/</span>
-          <span class="duration">00:00</span>
-        </span>
-        
-        <button class="speed-btn" aria-label="播放速度">1x</button>
       </div>
+      
+      <span class="time-display">
+        <span class="current-time">00:00</span>
+        <span class="separator">/</span>
+        <span class="duration">00:00</span>
+      </span>
+      
+      <button class="speed-btn" aria-label="播放速度">1x</button>
+    </div>
 
+    <div class="focus-layout">
       {/* 字幕显示区域 */}
       <div class="subtitle-area">
         <div class="subtitle-content">
           <div class="subtitle-prev"></div>
-          <div class="subtitle-current"></div>
+          <div class="subtitle-current">点击播放，跟随字幕阅读这段语音。</div>
           <div class="subtitle-next"></div>
         </div>
       </div>
-    </div>
 
-    {/* 纯文本区域 */}
-    <div class="text-panel hidden">
-      <div class="text-content-wrapper">
-        <div class="text-content"></div>
-      </div>
+      <aside class="transcript-rail" aria-label="完整听稿">
+        <div class="rail-head">
+          <span>FULL TRANSCRIPT</span>
+          <small>点击句子跳转</small>
+        </div>
+        <div class="text-content transcript-content"></div>
+      </aside>
     </div>
+  </div>
+
+  {/* 纯文本区域 */}
+  <div class="text-panel hidden">
+    <div class="text-content text-content-main"></div>
   </div>
 
   {/* 全屏退出提示 */}
@@ -114,31 +105,37 @@ const { src, subtitle, title } = Astro.props;
 
 <style>
   .audio-mode-container {
-    margin: 2rem 0;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    margin: 2.75rem 0;
+    border-top: 3px double var(--fg);
+    border-bottom: 1px solid var(--border-strong);
     overflow: hidden;
-    background: var(--bg-soft);
-    transition: all 400ms var(--ease);
+    background: color-mix(in srgb, var(--bg-soft) 72%, var(--bg));
+    transition: background-color 240ms var(--ease), border-color 240ms var(--ease);
   }
 
-  /* 溶解滤镜动画 */
-  .content-wrapper {
-    position: relative;
-    filter: url(#dissolve-filter);
+  .audio-module-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.72rem 0;
+    color: var(--fg-muted);
+    border-bottom: 1px solid var(--border);
+    font: 0.72rem var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .content-wrapper.dissolving {
-    animation: dissolve-in 1000ms ease-out forwards;
+  .audio-module-head span {
+    color: var(--accent);
   }
 
-  @keyframes dissolve-in {
-    0% {
-      filter: url(#dissolve-filter);
-    }
-    100% {
-      filter: url(#dissolve-filter);
-    }
+  .audio-module-head small {
+    overflow: hidden;
+    color: var(--fg-muted);
+    font: inherit;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* 全屏模式 */
@@ -147,32 +144,44 @@ const { src, subtitle, title } = Astro.props;
     inset: 0;
     z-index: 9999;
     margin: 0;
-    border-radius: 0;
+    border: 0;
     display: flex;
     flex-direction: column;
     background: var(--bg);
   }
 
-  .audio-mode-container.is-fullscreen .mode-switch {
-    border-radius: 0;
+  .audio-mode-container.is-fullscreen .audio-module-head {
+    padding: 1rem 1.25rem;
   }
 
   .audio-mode-container.is-fullscreen .audio-panel {
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+  }
+
+  .audio-mode-container.is-fullscreen .player-controls {
+    padding: 1rem 1.25rem;
+  }
+
+  .audio-mode-container.is-fullscreen .focus-layout {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.62fr);
   }
 
   .audio-mode-container.is-fullscreen .subtitle-area {
-    flex: 1;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
+    padding: clamp(3rem, 7vw, 6rem);
   }
 
   .audio-mode-container.is-fullscreen .subtitle-current {
-    font-size: 2rem;
+    font-size: clamp(2rem, 3vw, 3rem);
     line-height: 1.8;
   }
 
@@ -193,8 +202,8 @@ const { src, subtitle, title } = Astro.props;
     padding: 0.5rem 1rem;
     background: var(--fg);
     color: var(--bg);
-    border-radius: 20px;
-    font: 0.75rem var(--font-mono);
+    border-radius: 0;
+    font: 0.82rem var(--font-mono);
     opacity: 0.6;
     pointer-events: none;
   }
@@ -204,8 +213,8 @@ const { src, subtitle, title } = Astro.props;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
+    border-bottom: 1px solid var(--border-strong);
+    background: transparent;
   }
 
   .mode-switch-left {
@@ -223,12 +232,12 @@ const { src, subtitle, title } = Astro.props;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem 1rem;
+    padding: 0.9rem 1rem;
     border: none;
     background: none;
     color: var(--fg-muted);
-    font: 0.75rem var(--font-mono);
-    letter-spacing: 0.05em;
+    font: 0.86rem var(--font-mono);
+    letter-spacing: 0.04em;
     cursor: pointer;
     transition: all 180ms var(--ease);
     position: relative;
@@ -263,10 +272,10 @@ const { src, subtitle, title } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     border: none;
-    border-radius: 8px;
+    border-radius: 0;
     background: none;
     color: var(--fg-muted);
     cursor: pointer;
@@ -288,8 +297,8 @@ const { src, subtitle, title } = Astro.props;
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 1.5rem;
-    background: var(--bg);
+    padding: 1.25rem 0;
+    background: transparent;
     border-bottom: 1px solid var(--border);
   }
 
@@ -297,8 +306,8 @@ const { src, subtitle, title } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border: 2px solid var(--fg);
     border-radius: 50%;
     background: none;
@@ -330,7 +339,7 @@ const { src, subtitle, title } = Astro.props;
 
   .progress-bar {
     position: relative;
-    height: 4px;
+    height: 3px;
     background: var(--border);
     border-radius: 2px;
     cursor: pointer;
@@ -366,7 +375,7 @@ const { src, subtitle, title } = Astro.props;
 
   /* 时间显示 */
   .time-display {
-    font: 0.75rem var(--font-mono);
+    font: 0.82rem var(--font-mono);
     color: var(--fg-muted);
     white-space: nowrap;
   }
@@ -378,12 +387,12 @@ const { src, subtitle, title } = Astro.props;
 
   /* 速度按钮 */
   .speed-btn {
-    padding: 0.25rem 0.5rem;
+    padding: 0.35rem 0.55rem;
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 0;
     background: none;
     color: var(--fg-muted);
-    font: 0.7rem var(--font-mono);
+    font: 0.8rem var(--font-mono);
     cursor: pointer;
     transition: all 180ms var(--ease);
   }
@@ -395,8 +404,8 @@ const { src, subtitle, title } = Astro.props;
 
   /* 字幕区域 */
   .subtitle-area {
-    padding: 2rem 1.5rem;
-    min-height: 200px;
+    padding: 2.4rem 1.5rem;
+    min-height: 168px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -404,13 +413,13 @@ const { src, subtitle, title } = Astro.props;
 
   .subtitle-content {
     width: 100%;
-    max-width: 600px;
+    max-width: 660px;
     text-align: center;
   }
 
   .subtitle-prev,
   .subtitle-next {
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.8;
     color: var(--fg-muted);
     opacity: 0.4;
@@ -425,13 +434,63 @@ const { src, subtitle, title } = Astro.props;
   }
 
   .subtitle-current {
-    font-size: 1.3rem;
+    font-size: clamp(1.28rem, 2vw, 1.55rem);
     line-height: 1.8;
     color: var(--fg);
     padding: 1rem 0;
     position: relative;
-    min-height: 3rem;
+    min-height: 2.8rem;
     transition: font-size 300ms var(--ease);
+  }
+
+  .transcript-rail {
+    display: none;
+  }
+
+  .audio-mode-container.is-fullscreen .transcript-rail {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    padding: clamp(2rem, 4vw, 3.5rem) clamp(1.4rem, 3vw, 2.4rem);
+    border-left: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg-soft) 58%, var(--bg));
+  }
+
+  .rail-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 3px double var(--fg);
+    color: var(--fg-muted);
+    font: 0.72rem var(--font-mono);
+    letter-spacing: 0.1em;
+  }
+
+  .rail-head span {
+    color: var(--accent);
+  }
+
+  .transcript-content {
+    flex: 1;
+    min-height: 0;
+    max-width: none;
+    margin: 1.2rem 0 0;
+    padding-right: 0.5rem;
+    overflow: auto;
+    font-size: 1.02rem;
+    line-height: 1.9;
+  }
+
+  .transcript-content .text-line {
+    padding: 0.42rem 0.85rem 0.42rem 1rem;
+    border-left: 2px solid transparent;
+  }
+
+  .transcript-content .text-line.active {
+    color: var(--fg);
+    background: var(--accent-soft);
+    border-left-color: var(--accent);
   }
 
   /* 打字机动画 */
@@ -452,35 +511,15 @@ const { src, subtitle, title } = Astro.props;
 
   /* 纯文本面板 */
   .text-panel {
-    padding: 2rem 1.5rem;
-  }
-
-  .text-content-wrapper {
-    max-width: 600px;
-    margin: 0 auto;
-    filter: url(#dissolve-filter);
-    transition: filter 300ms var(--ease);
-  }
-
-  .text-content-wrapper.dissolving {
-    animation: text-dissolve 1000ms ease-out forwards;
-  }
-
-  @keyframes text-dissolve {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-    }
+    padding: 2.25rem 0;
+    border-top: 1px solid var(--border);
   }
 
   .text-content {
-    font-size: 1rem;
-    line-height: 2;
+    max-width: 680px;
+    margin: 0 auto;
+    font-size: 1.08rem;
+    line-height: 2.05;
     color: var(--fg);
   }
 
@@ -505,6 +544,28 @@ const { src, subtitle, title } = Astro.props;
   }
 
   /* 暗色模式适配 */
+  :global([data-theme="dark"]) .audio-mode-container {
+    background: color-mix(in srgb, var(--surface) 72%, var(--bg));
+    border-top-color: #c5c2b9;
+    border-bottom-color: var(--border-strong);
+  }
+
+  :global([data-theme="dark"]) .audio-module-head,
+  :global([data-theme="dark"]) .mode-switch,
+  :global([data-theme="dark"]) .player-controls,
+  :global([data-theme="dark"]) .transcript-rail,
+  :global([data-theme="dark"]) .text-panel {
+    border-color: var(--border-subtle);
+  }
+
+  :global([data-theme="dark"]) .audio-mode-container.is-fullscreen .transcript-rail {
+    background: color-mix(in srgb, var(--surface) 58%, var(--bg));
+  }
+
+  :global([data-theme="dark"]) .rail-head {
+    border-color: #c5c2b9;
+  }
+
   :global([data-theme="dark"]) .play-btn {
     border-color: var(--fg);
     color: var(--fg);
@@ -541,6 +602,24 @@ const { src, subtitle, title } = Astro.props;
 
     .audio-mode-container.is-fullscreen .subtitle-current {
       font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .audio-mode-container.is-fullscreen .focus-layout {
+      grid-template-columns: 1fr;
+      overflow: auto;
+    }
+
+    .audio-mode-container.is-fullscreen .subtitle-area {
+      min-height: 48vh;
+      padding: 2.5rem 1.25rem;
+    }
+
+    .audio-mode-container.is-fullscreen .transcript-rail {
+      min-height: 52vh;
+      border-top: 1px solid var(--border);
+      border-left: 0;
     }
   }
 </style>
@@ -609,8 +688,6 @@ const { src, subtitle, title } = Astro.props;
       this.isAudioMode = true;
       this.isFullscreen = false;
       this.typingTimeout = null;
-      this.dissolveScale = 0;
-      this.isDissolving = false;
       this.init();
     }
 
@@ -640,13 +717,7 @@ const { src, subtitle, title } = Astro.props;
         }
       }
 
-      this.initDissolveFilter();
       this.bindEvents();
-    }
-
-    initDissolveFilter() {
-      // 获取溶解滤镜中的 feDisplacementMap 元素
-      this.dissolveMap = document.querySelector('#dissolve-filter feDisplacementMap');
     }
 
     bindEvents() {
@@ -705,44 +776,6 @@ const { src, subtitle, title } = Astro.props;
       });
     }
 
-    // 溶解动画
-    playDissolveAnimation(callback) {
-      if (this.isDissolving || !this.dissolveMap) {
-        if (callback) callback();
-        return;
-      }
-
-      this.isDissolving = true;
-      const duration = 1000; // 1000ms
-      const startTime = performance.now();
-      const startScale = 0;
-      const endScale = 2000;
-
-      const animate = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // 使用 easeOut 缓动函数
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentScale = startScale + (endScale - startScale) * easeOut;
-        
-        this.dissolveMap.setAttribute('scale', currentScale.toString());
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          // 动画完成，重置
-          setTimeout(() => {
-            this.dissolveMap.setAttribute('scale', '0');
-            this.isDissolving = false;
-            if (callback) callback();
-          }, 100);
-        }
-      };
-
-      requestAnimationFrame(animate);
-    }
-
     togglePlay() {
       if (this.isPlaying) {
         this.audio.pause();
@@ -765,35 +798,21 @@ const { src, subtitle, title } = Astro.props;
     }
 
     switchMode(isAudio) {
-      if (this.isDissolving) return;
-      
       this.isAudioMode = isAudio;
       const audioPanel = this.container.querySelector('.audio-panel');
       const textPanel = this.container.querySelector('.text-panel');
-      const textContentWrapper = this.container.querySelector('.text-content-wrapper');
       const modeBtns = this.container.querySelectorAll('.mode-btn');
 
-      // 播放溶解动画
-      this.playDissolveAnimation(() => {
-        if (isAudio) {
-          audioPanel.classList.remove('hidden');
-          textPanel.classList.add('hidden');
-        } else {
-          audioPanel.classList.add('hidden');
-          textPanel.classList.remove('hidden');
-          if (this.isPlaying) {
-            this.togglePlay();
-          }
-          
-          // 文字内容溶解效果
-          if (textContentWrapper) {
-            textContentWrapper.classList.add('dissolving');
-            setTimeout(() => {
-              textContentWrapper.classList.remove('dissolving');
-            }, 1000);
-          }
+      if (isAudio) {
+        audioPanel.classList.remove('hidden');
+        textPanel.classList.add('hidden');
+      } else {
+        audioPanel.classList.add('hidden');
+        textPanel.classList.remove('hidden');
+        if (this.isPlaying) {
+          this.togglePlay();
         }
-      });
+      }
 
       modeBtns.forEach(btn => {
         const btnMode = btn.dataset.mode;
@@ -806,9 +825,13 @@ const { src, subtitle, title } = Astro.props;
       const fullscreenBtn = this.container.querySelector('.fullscreen-btn');
       
       if (this.isFullscreen) {
+        if (!this.isAudioMode) {
+          this.switchMode(true);
+        }
         this.container.classList.add('is-fullscreen');
         fullscreenBtn.classList.add('is-active');
         document.body.style.overflow = 'hidden';
+        setTimeout(() => this.updateTextHighlight(), 0);
         
         if (!this.isPlaying) {
           this.togglePlay();
@@ -923,21 +946,24 @@ const { src, subtitle, title } = Astro.props;
     }
 
     renderTextContent() {
-      const textContent = this.container.querySelector('.text-content');
-      if (!textContent) return;
+      const textContents = this.container.querySelectorAll('.text-content');
+      if (!textContents.length) return;
 
-      textContent.innerHTML = this.subtitles
+      const markup = this.subtitles
         .map((sub, i) => `<p class="text-line" data-index="${i}">${sub.text}</p>`)
         .join('');
 
-      textContent.addEventListener('click', (e) => {
-        const target = e.target;
-        if (target.classList.contains('text-line')) {
-          const index = parseInt(target.dataset.index || '0');
-          this.audio.currentTime = this.subtitles[index].startTime;
-          this.switchMode(true);
-          if (!this.isPlaying) this.togglePlay();
-        }
+      textContents.forEach((textContent) => {
+        textContent.innerHTML = markup;
+        textContent.addEventListener('click', (e) => {
+          const target = e.target;
+          if (target.classList.contains('text-line')) {
+            const index = parseInt(target.dataset.index || '0');
+            this.audio.currentTime = this.subtitles[index].startTime;
+            this.switchMode(true);
+            if (!this.isPlaying) this.togglePlay();
+          }
+        });
       });
     }
 
@@ -947,7 +973,10 @@ const { src, subtitle, title } = Astro.props;
         line.classList.toggle('active', i === this.currentSubtitleIndex);
       });
 
-      const activeLine = this.container.querySelector('.text-line.active');
+      const activeLine =
+        (this.isFullscreen && this.container.querySelector('.transcript-rail .text-line.active')) ||
+        this.container.querySelector('.text-panel:not(.hidden) .text-line.active') ||
+        this.container.querySelector('.text-line.active');
       if (activeLine) {
         activeLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }

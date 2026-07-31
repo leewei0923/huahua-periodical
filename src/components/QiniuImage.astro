@@ -23,17 +23,20 @@ const {
 
 const inferred = configuredWidth && configuredHeight
 	? null
-	: await getQiniuImageInfo(src);
-const width = configuredWidth ?? inferred!.width;
-const height = configuredHeight ?? inferred!.height;
+	: await getQiniuImageInfo(src).catch((error) => {
+		console.warn(error instanceof Error ? error.message : error);
+		return null;
+	});
+const width = configuredWidth ?? inferred?.width;
+const height = configuredHeight ?? inferred?.height;
 
 const responsiveWidths = [...new Set([
-	...[480, 800, 1280].filter((candidate) => candidate < width),
-	width,
+	...[480, 800, 1280].filter((candidate) => !width || candidate < width),
+	...(width ? [width] : []),
 ])].sort((a, b) => a - b);
 const transform = (targetWidth: number) =>
 	`${src}?imageView2/2/w/${targetWidth}/format/webp/q/82/strip`;
-const fallbackWidth = responsiveWidths.find((candidate) => candidate >= 800) ?? responsiveWidths.at(-1) ?? width;
+const fallbackWidth = responsiveWidths.find((candidate) => candidate >= 800) ?? responsiveWidths.at(-1) ?? 800;
 ---
 
 <img
@@ -46,5 +49,7 @@ const fallbackWidth = responsiveWidths.find((candidate) => candidate >= 800) ?? 
 	class={className}
 	loading={priority ? 'eager' : 'lazy'}
 	fetchpriority={priority ? 'high' : 'auto'}
+	referrerpolicy="origin"
 	decoding="async"
+	onerror="this.closest('.hero-image')?.classList.add('image-failed')"
 />

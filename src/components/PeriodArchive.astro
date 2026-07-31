@@ -61,21 +61,21 @@ const descriptions: Record<PeriodKind, string> = {
 
 <style>
 	.period-archive { width: 100%; max-width: 1280px; padding: 2rem; }
-	.rule { display: flex; justify-content: space-between; padding: .5rem 0; border-top: 1px solid var(--fg); border-bottom: 3px double var(--fg); color: var(--fg-muted); font: .6rem var(--font-mono); letter-spacing: .16em; }
+	.rule { display: flex; justify-content: space-between; padding: .58rem 0; border-top: 1px solid var(--fg); border-bottom: 3px double var(--fg); color: var(--fg-muted); font: .68rem var(--font-mono); letter-spacing: .1em; }
 	header { padding-bottom: 3rem; }
-	.eyebrow { margin: 3rem 0 .5rem; color: var(--accent); font: .62rem var(--font-mono); letter-spacing: .18em; }
-	h1 { margin: 0; font-size: clamp(4rem, 9vw, 7rem); letter-spacing: -.06em; }
-	.intro { max-width: 38rem; margin: 1rem 0 2rem; color: var(--fg-muted); font-size: 1rem; }
+	.eyebrow { margin: 3rem 0 .5rem; color: var(--accent); font: .72rem var(--font-mono); letter-spacing: .14em; }
+	h1 { margin: 0; font-size: clamp(4rem, 9vw, 7rem); letter-spacing: -.025em; }
+	.intro { max-width: 40rem; margin: 1rem 0 2rem; color: var(--fg-muted); font-size: 1.12rem; }
 	.period-tabs { display: flex; gap: .6rem; }
-	.period-tabs a { padding: .55rem .9rem; color: var(--fg-muted); border: 1px solid var(--border-strong); font: .62rem var(--font-mono); letter-spacing: .12em; text-decoration: none; }
+	.period-tabs a { padding: .62rem 1rem; color: var(--fg-muted); border: 1px solid var(--border-strong); font: .72rem var(--font-mono); letter-spacing: .08em; text-decoration: none; }
 	.period-tabs a:hover, .period-tabs a.active { color: white; background: var(--accent); border-color: var(--accent); }
 	.issue-list { border-top: 3px double var(--fg); }
 	.issue-row { display: grid; grid-template-columns: 50px minmax(180px, 1fr) minmax(150px, .7fr) 70px 70px 24px; gap: 1rem; align-items: center; padding: 1.4rem 0; color: var(--fg); border-bottom: 1px solid var(--border-strong); text-decoration: none; }
 	.issue-row:hover .issue-name strong, .issue-row:hover .arrow { color: var(--accent); }
-	.number, .range, .count, .status { color: var(--fg-muted); font: .58rem var(--font-mono); letter-spacing: .1em; }
+	.number, .range, .count, .status { color: var(--fg-muted); font: .68rem var(--font-mono); letter-spacing: .08em; }
 	.issue-name { display: flex; flex-direction: column; }
-	.issue-name strong { font-size: 1.35rem; transition: color 180ms var(--ease); }
-	.issue-name small { color: var(--fg-muted); font: .58rem var(--font-mono); letter-spacing: .12em; }
+	.issue-name strong { font-size: 1.48rem; transition: color 180ms var(--ease); }
+	.issue-name small { color: var(--fg-muted); font: .68rem var(--font-mono); letter-spacing: .08em; }
 	.status { width: max-content; padding: .3rem .45rem; border: 1px solid var(--border); }
 	.status.closed { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
 	.arrow { color: var(--accent); font-size: 1.2rem; }

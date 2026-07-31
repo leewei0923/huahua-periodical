@@ -6,12 +6,17 @@ export interface QiniuImageInfo {
 }
 
 const imageInfoCache = new Map<string, Promise<QiniuImageInfo>>();
+const imageInfoReferer = `${import.meta.env.SITE_URL ?? 'https://huahua.7miaoyu.com'}/`;
 
 export function getQiniuImageInfo(src: string): Promise<QiniuImageInfo> {
 	const cached = imageInfoCache.get(src);
 	if (cached) return cached;
 
-	const request = fetch(`${src}?imageInfo`)
+	const request = fetch(`${src}?imageInfo`, {
+		headers: {
+			Referer: imageInfoReferer,
+		},
+	})
 		.then(async (response) => {
 			if (!response.ok) {
 				throw new Error(`七牛 imageInfo 请求失败：${response.status} ${src}`);

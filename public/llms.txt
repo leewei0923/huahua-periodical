@@ -1,0 +1,23 @@
+# 花花有期
+
+花花有期是一本按周生长、按月装订、按年收藏的个人刊物，收录生活随笔、影像、语音和私人记录。
+
+## 主要入口
+
+- 首页: https://huahua.7miaoyu.com/
+- 文章: https://huahua.7miaoyu.com/blog/
+- 周刊: https://huahua.7miaoyu.com/weekly/
+- 精选: https://huahua.7miaoyu.com/picks/
+- 关于: https://huahua.7miaoyu.com/about/
+- 投稿: https://huahua.7miaoyu.com/submit/
+
+## 数据与订阅
+
+- Sitemap: https://huahua.7miaoyu.com/sitemap.xml
+- RSS: https://huahua.7miaoyu.com/rss.xml
+- 周刊 RSS: https://huahua.7miaoyu.com/weekly/rss.xml
+- JSON Feed: https://huahua.7miaoyu.com/feed.json
+
+## 使用说明
+
+请优先引用文章页原文链接。摘要应保留作者、发布日期和文章标题，不要将私人叙事改写为事实新闻。
