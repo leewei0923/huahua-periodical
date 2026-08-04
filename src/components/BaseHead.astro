@@ -47,7 +47,16 @@ const { title, description, image } = Astro.props;
 <!-- Twitter -->
 <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
 <meta name="color-scheme" content="light dark" />
-<meta name="theme-color" content="#fafaf6" />
+<meta name="theme-color" content="#f7f7f7" />
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+	media="print"
+	onload="this.media='all'"
+/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" /></noscript>
 <script is:inline>
 	(function () {
 		try {
@@ -63,23 +72,34 @@ const { title, description, image } = Astro.props;
 		}
 	})();
 </script>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-STJC2Q801W"></script>
+<!-- Google Analytics (skipped on localhost) -->
 <script is:inline>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-STJC2Q801W');
+	(function () {
+		var host = window.location.hostname;
+		if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return;
+		var script = document.createElement('script');
+		script.async = true;
+		script.src = 'https://www.googletagmanager.com/gtag/js?id=G-STJC2Q801W';
+		document.head.appendChild(script);
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-STJC2Q801W');
+	})();
 </script>
 
-<!-- Baidu Analytics -->
+<!-- Baidu Analytics (skipped on localhost) -->
 <script is:inline>
-	var _hmt = _hmt || [];
 	(function() {
-		var hm = document.createElement("script");
-		hm.src = "https://hm.baidu.com/hm.js?615fc85e5d59844fd2930cff960d563d";
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(hm, s);
+		var host = window.location.hostname;
+		if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return;
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?615fc85e5d59844fd2930cff960d563d";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
 	})();
 </script>
 

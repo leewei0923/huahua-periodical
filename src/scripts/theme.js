@@ -29,7 +29,7 @@ function applyTheme(theme) {
 	}
 
 	document.querySelector('meta[name="theme-color"]')
-		?.setAttribute('content', theme === 'dark' ? '#171717' : '#fafaf6');
+  ?.setAttribute('content', theme === 'dark' ? '#171717' : '#f7f7f7');
 }
 
 function initializeThemeControls() {

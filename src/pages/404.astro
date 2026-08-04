@@ -1,0 +1,30 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head><BaseHead title={`页面不存在 · ${SITE_TITLE}`} description="你访问的页面不存在，回到首页继续阅读吧。" /></head>
+	<body>
+		<Header />
+		<main class="not-found">
+			<p class="code">404</p>
+			<h1>这一页不存在</h1>
+			<p>它可能被移动了，或者地址写错了。</p>
+			<a href="/">回到首页 →</a>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.not-found { text-align: center; padding: 6rem 1rem 7rem; }
+	.code { margin: 0; color: var(--accent); font: 700 clamp(3rem, 10vw, 6rem) var(--font-mono); line-height: 1; }
+	.not-found h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+	.not-found > p:not(.code) { color: var(--fg-muted); }
+	.not-found a { display: inline-block; margin-top: 1.5rem; padding: .7rem 1rem; color: white; background: var(--accent); text-decoration: none; font: .72rem var(--font-mono); letter-spacing: .1em; }
+	.not-found a:hover { background: color-mix(in srgb, var(--accent) 85%, black); }
+</style>

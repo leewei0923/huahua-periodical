@@ -40,11 +40,53 @@ const currentWeek = getCurrentPeriod('weekly');
 						<circle cx="12" cy="12" r="3"></circle>
 					</svg>
 				</button>
+				<button class="reading-scale-toggle" type="button" aria-label="调整字号" title="字号：标准，点击切换">
+					<span class="a-small" aria-hidden="true">A</span>
+					<span class="a-large" aria-hidden="true">A</span>
+				</button>
 			</div>
 			<span class="issue">{currentWeek.id}</span>
 		</div>
 	</nav>
 </header>
+
+<script>
+	const readingScaleButton = document.querySelector<HTMLButtonElement>('.reading-scale-toggle');
+	if (readingScaleButton) {
+		const SCALE_KEY = 'reading-scale';
+		const scales = ['1', '2', '3'];
+		const labels: Record<string, string> = {
+			'1': '标准字号',
+			'2': '大号字',
+			'3': '特大号字',
+		};
+		let scale: string = '1';
+		try {
+			const saved = localStorage.getItem(SCALE_KEY);
+			if (saved && scales.includes(saved)) scale = saved;
+		} catch {
+			// Storage can be unavailable in privacy-restricted browsers.
+		}
+		const applyScale = (next: string) => {
+			document.body.dataset.readingScale = next;
+			readingScaleButton.setAttribute('aria-pressed', String(next !== '1'));
+			const label = labels[next] ?? labels['1'];
+			readingScaleButton.setAttribute('aria-label', `调整字号（当前：${label}）`);
+			readingScaleButton.setAttribute('title', `字号：${label}，点击切换`);
+		};
+		applyScale(scale);
+		readingScaleButton.addEventListener('click', () => {
+			const next = scales[(scales.indexOf(scale) + 1) % scales.length];
+			scale = next;
+			try {
+				localStorage.setItem(SCALE_KEY, next);
+			} catch {
+				// The selected scale still applies for the current page.
+			}
+			applyScale(next);
+		});
+	}
+</script>
 
 <style>
 	.site-header { position: sticky; top: 0; z-index: 20; padding: 0 2rem; background: color-mix(in srgb, var(--bg-soft) 91%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); }
@@ -54,7 +96,7 @@ const currentWeek = getCurrentPeriod('weekly');
 	.wordmark-cn, .wordmark-en { display: flex; flex-direction: column; line-height: 1.05; }
 	.wordmark-cn { font-size: .96rem; font-weight: 700; letter-spacing: .06em; }
 	.wordmark-dot { color: var(--accent); font-size: .55rem; }
-	.wordmark-en { font-family: var(--font-mono); font-size: .54rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); }
+	.wordmark-en { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); }
 	.nav-links { display: flex; align-self: stretch; gap: 1.55rem; }
 	.nav-links a { position: relative; display: flex; align-items: center; gap: .5rem; font-size: .95rem; }
 	.nav-links a span { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em; color: var(--fg-muted); text-transform: uppercase; }
@@ -67,6 +109,11 @@ const currentWeek = getCurrentPeriod('weekly');
 	.theme-toggle svg { position: relative; z-index: 1; width: 15px; height: 15px; justify-self: center; fill: none; stroke-linecap: round; stroke-linejoin: round; transition: color 180ms var(--ease), transform 240ms var(--ease); }
 	.theme-toggle .sun-icon { color: var(--bg); transform: rotate(0deg); }
 	.theme-toggle .moon-icon { color: var(--fg-muted); transform: rotate(-18deg); }
+	.reading-scale-toggle { background: none; border: none; cursor: pointer; padding: .5rem; color: var(--fg-muted); line-height: 1; display: flex; align-items: center; gap: 1px; justify-content: center; transition: color 0.2s var(--ease); border-radius: 4px; }
+	.reading-scale-toggle:hover { color: var(--fg); background: var(--accent-soft); }
+	.reading-scale-toggle[aria-pressed="true"] { color: var(--accent); }
+	.reading-scale-toggle .a-small { font-size: .72rem; }
+	.reading-scale-toggle .a-large { font-size: 1.05rem; }
 	[data-theme="dark"] .theme-track::before { transform: translateX(26px); }
 	[data-theme="dark"] .theme-toggle .sun-icon { color: var(--fg-muted); transform: rotate(45deg); }
 	[data-theme="dark"] .theme-toggle .moon-icon { color: var(--bg); transform: rotate(0deg); }
@@ -74,7 +121,7 @@ const currentWeek = getCurrentPeriod('weekly');
 	.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 	.theme-toggle:active .theme-track::before { transform: scale(.9); }
 	[data-theme="dark"] .theme-toggle:active .theme-track::before { transform: translateX(26px) scale(.9); }
-	@media (max-width: 760px) {
+	@media (max-width: 920px) {
 		.site-header { padding: 0 1rem; }
 		.nav-shell { min-height: 58px; grid-template-columns: 1fr auto; gap: .75rem; }
 		.nav-links { order: 3; grid-column: 1 / -1; min-height: 42px; justify-content: center; border-top: 1px solid var(--border); }

@@ -14,7 +14,7 @@ const posts = getEvergreenPosts(await getCollection('blog'));
 
 <!doctype html>
 <html lang="zh-CN">
-	<head><BaseHead title={`精选 · ${SITE_TITLE}`} description="不受刊期限制，长期保留的代表文章。" image={posts[0]?.data.heroImage} /></head>
+	<head><BaseHead title={`精选 · ${SITE_TITLE}`} description="不受刊期限制，长期保留的代表文章。" image={posts[0]?.data.heroImage?.src} /></head>
 	<body>
 		<Header />
 		<main class="picks-page">

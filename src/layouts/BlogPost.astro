@@ -6,8 +6,26 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import QiniuImage from '../components/QiniuImage.astro';
 import { getContentTypeLabel } from '../lib/content';
-type Props = CollectionEntry<'blog'>['data'];
-const { title, description, pubDate, updatedDate, heroImage, language, contentType, author, topics, issueOverride } = Astro.props;
+type Props = CollectionEntry<'blog'>['data'] & {
+	readingMinutes?: number;
+	prevPost?: { id: string; title: string } | null;
+	nextPost?: { id: string; title: string } | null;
+};
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	language,
+	contentType,
+	author,
+	topics,
+	issueOverride,
+	readingMinutes = 1,
+	prevPost = null,
+	nextPost = null,
+} = Astro.props;
 const titleLength = Array.from(title).length;
 const titleDensity = titleLength >= 34 ? 'long' : titleLength >= 22 ? 'medium' : 'short';
 ---
@@ -15,6 +33,7 @@ const titleDensity = titleLength >= 34 ? 'long' : titleLength >= 22 ? 'medium' :
 <html lang={language}>
 	<head><BaseHead title={title} description={description} image={heroImage?.src} /></head>
 	<body class="article-body">
+		<div class="reading-progress" aria-hidden="true"></div>
 		<Header />
 		<main class="article-page">
 			<article>
@@ -23,17 +42,61 @@ const titleDensity = titleLength >= 34 ? 'long' : titleLength >= 22 ? 'medium' :
 					<p class="kicker">{getContentTypeLabel(contentType, 'en').toUpperCase()} · {getContentTypeLabel(contentType)}</p>
 					<h1 class:list={['article-title', `is-${titleDensity}`]}>{title}</h1>
 					<p class="dek">{description}</p>
-					<div class="byline"><span>WRITTEN BY {author}</span><FormattedDate date={pubDate} /><span>8 MIN READ</span></div>
+					<div class="byline"><span>WRITTEN BY {author}</span><FormattedDate date={pubDate} /><span>{contentType === 'audio' ? 'AUDIO POST' : `${readingMinutes} MIN READ`}</span></div>
 				</header>
-				{heroImage && <figure class="hero-image"><QiniuImage {...heroImage} sizes="(max-width: 800px) 100vw, 1280px" priority /><div class="hero-fallback" aria-hidden="true"><span>{getContentTypeLabel(contentType, 'en').toUpperCase()}</span><strong>{title}</strong><small>IMAGE PREVIEW</small></div><figcaption>PHOTO / PERSONAL ARCHIVE</figcaption></figure>}
+				{heroImage && <figure class="hero-image"><QiniuImage {...heroImage} sizes="(max-width: 800px) 100vw, 1280px" priority /><div class="hero-fallback" aria-hidden="true"><span>{getContentTypeLabel(contentType, 'en').toUpperCase()}</span><strong>{title}</strong><small>IMAGE PREVIEW</small></div>{heroImage.alt && <figcaption>{heroImage.alt}</figcaption>}</figure>}
 				<div class="article-grid">
-					<aside><span>SHARE</span><a href="#">复制链接</a>{topics.map(topic => <span>#{topic}</span>)}</aside>
+					<aside><span>SHARE</span><button class="copy-link" type="button">复制链接</button>{topics.map(topic => <a href={`/blog?tag=${encodeURIComponent(topic)}`}>#{topic}</a>)}</aside>
 					<div class="prose"><slot />{updatedDate && <p class="updated">最后更新于 <FormattedDate date={updatedDate} /></p>}</div>
 				</div>
 			</article>
-			<nav class="after"><span>读到这里，刚刚好。</span><a href="/blog">继续翻阅 →</a></nav>
+			<nav class="after">
+				{prevPost ? <a href={`/blog/${prevPost.id}/`}>← {prevPost.title}</a> : <span>已是第一篇</span>}
+				{nextPost ? <a href={`/blog/${nextPost.id}/`}>{nextPost.title} →</a> : <span>已是最后一篇</span>}
+							<span class="after-copy"><button class="copy-link" type="button">复制链接</button></span>
+</nav>
 		</main>
 		<Footer />
+		<script>
+			document.querySelectorAll<HTMLButtonElement>('.copy-link').forEach((copyLink) => {
+				copyLink.addEventListener('click', async () => {
+					const href = window.location.href;
+					const showDone = () => {
+						copyLink.textContent = '已复制';
+						setTimeout(() => { copyLink.textContent = '复制链接'; }, 2000);
+					};
+					try {
+						await navigator.clipboard.writeText(href);
+						showDone();
+					} catch {
+						const textarea = document.createElement('textarea');
+						textarea.value = href;
+						textarea.style.position = 'fixed';
+						textarea.style.opacity = '0';
+						document.body.appendChild(textarea);
+						textarea.select();
+						try {
+							document.execCommand('copy');
+							showDone();
+						} catch {
+							copyLink.textContent = '复制失败';
+						}
+						textarea.remove();
+					}
+				});
+			});
+			const readingProgress = document.querySelector<HTMLElement>('.reading-progress');
+			if (readingProgress) {
+				const updateProgress = () => {
+					const doc = document.documentElement;
+					const max = doc.scrollHeight - doc.clientHeight;
+					readingProgress.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+				};
+				window.addEventListener('scroll', () => requestAnimationFrame(updateProgress), { passive: true });
+				window.addEventListener('resize', updateProgress);
+				updateProgress();
+			}
+		</script>
 	</body>
 </html>
 
@@ -47,10 +110,11 @@ const titleDensity = titleLength >= 34 ? 'long' : titleLength >= 22 ? 'medium' :
 	.article-title.is-long{max-width:1000px;font-size:clamp(2.25rem,4vw,3.65rem);line-height:1.15;letter-spacing:0}
 	.dek{max-width:660px;margin:1.8rem auto;color:var(--fg-muted);font-size:1.14rem;line-height:1.75}
 	.byline{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;color:var(--fg-muted);font:.68rem var(--font-mono);letter-spacing:.1em}
-	.hero-image{display:grid;place-items:center;margin:0;padding:clamp(1.5rem,4vw,4rem);background:color-mix(in srgb,var(--border) 55%,var(--bg))}.hero-image :global(img){display:block;width:auto;height:auto;max-width:100%;max-height:82vh;object-fit:contain;border-radius:0;filter:saturate(.8);box-shadow:0 18px 48px rgba(20,18,14,.16)}.hero-fallback{display:none;width:min(760px,100%);min-height:clamp(260px,42vw,520px);place-content:center;gap:1rem;padding:clamp(2rem,5vw,4rem);background:color-mix(in srgb,var(--bg) 82%,white);text-align:center;color:var(--fg)}.hero-fallback span,.hero-fallback small{color:var(--accent);font:700 .72rem var(--font-mono);letter-spacing:.16em}.hero-fallback strong{font-size:clamp(1.9rem,3.8vw,3.3rem);line-height:1.22;text-wrap:balance}.hero-image.image-failed :global(img){display:none}.hero-image.image-failed .hero-fallback{display:grid}figcaption{width:100%;padding:.75rem 0 0;text-align:right;color:var(--fg-muted);font:.64rem var(--font-mono);letter-spacing:.1em}
-	.article-grid{display:grid;grid-template-columns:180px minmax(0,760px);justify-content:center;gap:3rem;padding:4.5rem 0 6rem}
-	aside{position:sticky;top:120px;align-self:start;display:flex;flex-direction:column;gap:.75rem;padding-top:.5rem;color:var(--fg-muted);font:.66rem var(--font-mono);letter-spacing:.08em}aside a{color:var(--accent)}
-	.prose{width:100%;padding:0;color:var(--fg-soft);font-size:1.12rem;line-height:2.05}.prose :global(p:first-child::first-letter){float:left;margin:.12em .12em 0 0;color:var(--accent);font-size:3.6rem;font-weight:700;line-height:.76}.prose :global(h2){margin-top:2.5em}.prose :global(img){margin:2rem 0}.updated{margin-top:4rem;padding-top:1rem;border-top:1px solid var(--border);color:var(--fg-muted);font:.7rem var(--font-mono)}
-	.after{display:flex;justify-content:space-between;margin-bottom:5rem;padding:1.2rem 0;border-top:3px double var(--fg);border-bottom:1px solid var(--fg);font:.7rem var(--font-mono);letter-spacing:.1em}.after a{color:var(--accent);text-decoration:none}
-	@media(max-width:760px){.article-page{padding:2rem 1.1rem 3rem}.kicker{margin-top:2.5rem}.article-title{font-size:clamp(2.35rem,11vw,3.6rem);letter-spacing:0}.article-title.is-medium,.article-title.is-long{font-size:clamp(2rem,9vw,2.95rem);line-height:1.18}.dek{font-size:1rem}.article-grid{grid-template-columns:1fr;padding:2.5rem 0 4rem}.article-grid aside{display:none}.prose{font-size:1.04rem;line-height:2}.hero-image{margin-left:-1.1rem;margin-right:-1.1rem;padding:1.25rem}.hero-image :global(img){max-height:72vh}.hero-fallback{min-height:300px}.hero-fallback strong{font-size:clamp(1.7rem,8vw,2.55rem)}figcaption{padding-right:.5rem}.after{gap:1rem}.topline span{display:none}}
+	.hero-image{display:grid;place-items:center;margin:0;padding:clamp(1.5rem,4vw,4rem);background:color-mix(in srgb,var(--border) 55%,var(--bg))}.hero-image :global(img){display:block;width:auto;height:auto;max-width:100%;max-height:82vh;object-fit:contain;border-radius:0;filter:saturate(.8);box-shadow:0 18px 48px rgba(20,20,20,.16)}.hero-fallback{display:none;width:min(760px,100%);min-height:clamp(260px,42vw,520px);place-content:center;gap:1rem;padding:clamp(2rem,5vw,4rem);background:color-mix(in srgb,var(--bg) 82%,white);text-align:center;color:var(--fg)}.hero-fallback span,.hero-fallback small{color:var(--accent);font:700 .72rem var(--font-mono);letter-spacing:.16em}.hero-fallback strong{font-size:clamp(1.9rem,3.8vw,3.3rem);line-height:1.22;text-wrap:balance}.hero-image.image-failed :global(img){display:none}.hero-image.image-failed .hero-fallback{display:grid}figcaption{width:100%;padding:.75rem 0 0;text-align:right;color:var(--fg-muted);font:.68rem var(--font-mono);letter-spacing:.1em}
+	.article-grid{display:grid;grid-template-columns:180px minmax(0,700px);justify-content:center;gap:3rem;padding:4.5rem 0 6rem}
+	aside{position:sticky;top:120px;align-self:start;display:flex;flex-direction:column;gap:.75rem;padding-top:.5rem;color:var(--fg-muted);font:.66rem var(--font-mono);letter-spacing:.08em}aside a{color:var(--accent)}.copy-link{background:none;border:0;padding:0;color:var(--accent);font:inherit;letter-spacing:inherit;text-align:left;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 35%,transparent);text-underline-offset:.2em;cursor:pointer}.copy-link:hover{text-decoration-color:var(--accent)}
+	.prose{width:100%;padding:0;color:var(--fg-soft);font-size:var(--prose-size);line-height:2.05}.prose:lang(zh){text-align:justify;text-justify:inter-ideograph}.prose :global(p:first-child::first-letter){float:left;margin:.12em .12em 0 0;color:var(--accent);font-size:3.6rem;font-weight:700;line-height:.76}.prose :global(h1){font-size:clamp(1.65rem,3vw,2.35rem);margin-top:2em}.prose :global(h2){margin-top:2.5em}.prose :global(img){margin:2rem auto;display:block}.prose :global(li){margin-bottom:.5em}.updated{margin-top:4rem;padding-top:1rem;border-top:1px solid var(--border);color:var(--fg-muted);font:.7rem var(--font-mono)}
+	.after{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:1rem;margin-bottom:5rem;padding:1.2rem 0;border-top:3px double var(--fg);border-bottom:1px solid var(--fg);font:.7rem var(--font-mono);letter-spacing:.1em}.after a{color:var(--accent);text-decoration:none;overflow-wrap:anywhere}.after-copy{display:none}.after-copy .copy-link{color:var(--fg-muted)}.after-copy .copy-link:hover{color:var(--accent)}.reading-progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;z-index:30;pointer-events:none}
+	@media(max-width:920px){.article-grid{grid-template-columns:1fr;padding:3rem 0 4.5rem}.article-grid aside{display:none}.after-copy{display:inline}}
+	@media(max-width:760px){.article-page{padding:2rem 1.1rem 3rem}.kicker{margin-top:2.5rem}.article-title{font-size:clamp(2.35rem,11vw,3.6rem);letter-spacing:0}.article-title.is-medium,.article-title.is-long{font-size:clamp(2rem,9vw,2.95rem);line-height:1.18}.dek{font-size:1rem}.article-grid{grid-template-columns:1fr;padding:2.5rem 0 4rem}.article-grid aside{display:none}.prose{font-size:var(--prose-size-mobile);line-height:2}.hero-image{margin-left:-1.1rem;margin-right:-1.1rem;padding:1.25rem}.hero-image :global(img){max-height:72vh}.hero-fallback{min-height:300px}.hero-fallback strong{font-size:clamp(1.7rem,8vw,2.55rem)}figcaption{padding-right:.5rem}.after{gap:1rem}.topline span{display:none}}
 </style>

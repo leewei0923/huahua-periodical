@@ -79,21 +79,21 @@ const submissionHref = `mailto:${SUBMISSION_EMAIL}?subject=${subject}&body=${bod
 
 <style>
 	.submission{width:100%;max-width:1280px;padding:2rem}
-	.rule{display:flex;justify-content:space-between;padding:.5rem 0;border-top:1px solid var(--fg);border-bottom:3px double var(--fg);font:.6rem var(--font-mono);letter-spacing:.16em;color:var(--fg-muted)}
+	.rule{display:flex;justify-content:space-between;padding:.5rem 0;border-top:1px solid var(--fg);border-bottom:3px double var(--fg);font:.68rem var(--font-mono);letter-spacing:.16em;color:var(--fg-muted)}
 	.title-row{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:end;padding:5rem 0}
-	.kicker{margin:0 0 1rem;color:var(--accent);font:600 .62rem var(--font-mono);letter-spacing:.18em}
+	.kicker{margin:0 0 1rem;color:var(--accent);font:600 .68rem var(--font-mono);letter-spacing:.18em}
 	h1{font-size:clamp(3.6rem,8vw,7rem);line-height:.92;letter-spacing:-.055em}
 	.lede{max-width:31rem;margin:0;font-size:clamp(1.1rem,2vw,1.55rem);line-height:1.7}
 	.guide{display:grid;grid-template-columns:180px 1fr;gap:3rem;padding:5rem 0;border-top:1px solid var(--fg)}
-	.guide aside{color:var(--accent);font:.6rem/1.7 var(--font-mono);letter-spacing:.14em}
+	.guide aside{color:var(--accent);font:.68rem/1.7 var(--font-mono);letter-spacing:.14em}
 	.guide h2,.preparation h2{font-size:clamp(2rem,4vw,3.2rem)}
 	.directions{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:2.5rem;border-top:1px solid var(--border-strong);border-bottom:1px solid var(--border-strong)}
 	.directions article{padding:1.5rem 1.5rem 1.5rem 0}
 	.directions article+article{padding-left:1.5rem;border-left:1px solid var(--border)}
-	.directions span,.preparation li>span{color:var(--accent);font:.58rem var(--font-mono);letter-spacing:.12em}
+	.directions span,.preparation li>span{color:var(--accent);font:.66rem var(--font-mono);letter-spacing:.12em}
 	.directions h3{margin-top:1.2rem;font-size:1.35rem}
 	.directions p{margin:0;color:var(--fg-muted);font-size:.9rem;line-height:1.75}
-	.preparation{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;padding:5rem clamp(2rem,6vw,5rem);background:#eeeae0}
+	.preparation{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;padding:5rem clamp(2rem,6vw,5rem);background:#ededed}
 	.preparation ol{margin:0;padding:0;list-style:none}
 	.preparation li{display:grid;grid-template-columns:2rem 1fr;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--border-strong)}
 	.preparation li:first-child{border-top:1px solid var(--border-strong)}
@@ -101,24 +101,24 @@ const submissionHref = `mailto:${SUBMISSION_EMAIL}?subject=${subject}&body=${bod
 	.send{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:5rem;padding:clamp(2rem,6vw,5rem);color:white;background:var(--fg)}
 	.send h2{color:white;font-size:clamp(2.4rem,5vw,4.5rem)}
 	.send-details{align-self:center}
-	.label{margin:0;color:#888;font:.58rem var(--font-mono);letter-spacing:.15em}
+	.label{margin:0;color:#888;font:.68rem var(--font-mono);letter-spacing:.15em}
 	.email{display:inline-block;margin:.5rem 0 1.3rem;color:white;font-size:clamp(1.25rem,2.5vw,2rem);text-decoration-color:var(--accent);overflow-wrap:anywhere}
 	.send-details>p:not(.label){max-width:32rem;color:#aaa;font-size:.9rem}
-	.send-button{display:inline-flex;margin-top:.8rem;padding:.85rem 1rem;color:white;background:var(--accent);font:.62rem var(--font-mono);letter-spacing:.12em;text-decoration:none}
+	.send-button{display:inline-flex;margin-top:.8rem;padding:.85rem 1rem;color:white;background:var(--accent);font:.68rem var(--font-mono);letter-spacing:.12em;text-decoration:none}
 	.send-button:hover{color:white;background:#a91f1f}
 	.note{max-width:52rem;margin:1.2rem 0 5rem auto;color:var(--fg-muted);font-size:.78rem}
-	:global([data-theme="dark"]) .submission{--submit-raised:#222522;--submit-ink:#101210;--submit-line:#424640;--submit-text:#eeeae1;--submit-muted:#aaa79e;--submit-accent:#ef6f67;color:var(--submit-text)}
-	:global([data-theme="dark"]) .rule,:global([data-theme="dark"]) .guide{border-color:#c5c2b9}
+	:global([data-theme="dark"]) .submission{--submit-raised:#232323;--submit-ink:#111111;--submit-line:#434343;--submit-text:#ececec;--submit-muted:#a8a8a8;--submit-accent:#ef6f67;color:var(--submit-text)}
+	:global([data-theme="dark"]) .rule,:global([data-theme="dark"]) .guide{border-color:#c4c4c4}
 	:global([data-theme="dark"]) .rule,:global([data-theme="dark"]) .directions p,:global([data-theme="dark"]) .note{color:var(--submit-muted)}
 	:global([data-theme="dark"]) .kicker,:global([data-theme="dark"]) .guide aside,:global([data-theme="dark"]) .directions span,:global([data-theme="dark"]) .preparation li>span{color:var(--submit-accent)}
 	:global([data-theme="dark"]) .directions,:global([data-theme="dark"]) .directions article+article{border-color:var(--submit-line)}
-	:global([data-theme="dark"]) .preparation{color:var(--submit-text);background:var(--submit-raised);box-shadow:inset 0 0 0 1px #2c302c}
+	:global([data-theme="dark"]) .preparation{color:var(--submit-text);background:var(--submit-raised);box-shadow:inset 0 0 0 1px #2d2d2d}
 	:global([data-theme="dark"]) .preparation h2,:global([data-theme="dark"]) .preparation strong{color:var(--submit-text)}
 	:global([data-theme="dark"]) .preparation li{border-color:var(--submit-line)}
 	:global([data-theme="dark"]) .send{color:var(--submit-text);background:var(--submit-ink)}
 	:global([data-theme="dark"]) .send h2,:global([data-theme="dark"]) .email{color:var(--submit-text)}
 	:global([data-theme="dark"]) .label,:global([data-theme="dark"]) .send-details>p:not(.label){color:var(--submit-muted)}
-	:global([data-theme="dark"]) .send-button{color:#fff8f4;background:#a83b36}
+	:global([data-theme="dark"]) .send-button{color:#fafafa;background:#a83b36}
 	:global([data-theme="dark"]) .send-button:hover{color:#fff;background:#c24b45}
 	@media(max-width:800px){
 		.submission{padding:1.2rem 1.1rem 3rem}
