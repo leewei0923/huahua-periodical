@@ -2,17 +2,28 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 interface Props {
 	title: string;
 	description: string;
 	image?: string;
+	ogType?: 'website' | 'article';
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const DEFAULT_OG_IMAGE = 'https://img.cdn.newappdaily.com/huahua-periodical/site/flowers2.jpg';
 
-const { title, description, image } = Astro.props;
+const { title, description, image, ogType = 'website' } = Astro.props;
+const ogImage = image ?? DEFAULT_OG_IMAGE;
+const websiteJsonLd = JSON.stringify({
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: SITE_TITLE,
+	url: new URL('/', Astro.site).href,
+	description: SITE_DESCRIPTION,
+	inLanguage: 'zh-CN',
+});
 ---
 
 <!-- Global Metadata -->
@@ -38,16 +49,19 @@ const { title, description, image } = Astro.props;
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-{image && <meta property="og:image" content={new URL(image, Astro.url)} />}
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:image" content={new URL(ogImage, Astro.url)} />
 
 <!-- Twitter -->
-<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
 <meta name="color-scheme" content="light dark" />
 <meta name="theme-color" content="#f7f7f7" />
+<script type="application/ld+json" set:html={websiteJsonLd} />
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
